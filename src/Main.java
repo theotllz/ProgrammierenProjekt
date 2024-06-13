@@ -9,6 +9,8 @@ public class Main {
         out.println("Nochmal probieren");
         out.println(auto("bumsen"));
         out.println("Wehhh");
+        out.println(auto("david"));
+        out.println(auto("der hurensohn"));
     }
 
     public static int auto(String input) {
