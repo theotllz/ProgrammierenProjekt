@@ -8,6 +8,7 @@ public class Main {
         out.println("Harry Muddern fickt sich hart in ihren fetten anus");
         out.println("Nochmal probieren");
         out.println(auto("bumsen"));
+        out.println("Wehhh");
     }
 
     public static int auto(String input) {
