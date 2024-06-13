@@ -11,7 +11,6 @@ public class Main {
     }
 
     public static int auto(String input) {
-        int length = input.length();
-        return length;
+        return input.length();
     }
 }
