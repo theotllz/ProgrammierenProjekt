@@ -1,6 +1,6 @@
 package src;
 
-public class Gerät2 {
+public class GeräteINDX {
 
     static int verfügbaregeräte;
     private int anzahlgeräte;
