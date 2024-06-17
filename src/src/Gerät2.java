@@ -1,5 +1,8 @@
+package src;
+
 public class Gerät2 {
-    private int verfügbaregeräte;
+
+    static int verfügbaregeräte;
     private int anzahlgeräte;
 
 
