@@ -7,10 +7,10 @@ public class Gerät implements GerätINTF {
     private String gerätename;
     private boolean Verfuegbarkeit;
 
-    public Gerät(int id, String gerätename, boolean verfügbarkeit) {
+    public Gerät(int id, String gerätename, boolean verfuegbarkeit) {
         this.id = id;
         this.gerätename = gerätename;
-        Verfuegbarkeit = verfügbarkeit;
+        Verfuegbarkeit = verfuegbarkeit;
     }
 
     //ID
@@ -43,7 +43,7 @@ public class Gerät implements GerätINTF {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formattedDateTime = now.format(formatter);
         System.out.println("src.Gerät zum Zeitpunkt " + formattedDateTime + " ausgeliehen\n");
-        Verfuegbarkeit=false;
+        Verfuegbarkeit =false;
     }
     else {
         System.out.println("wenn du das sehen kannst gibt es einen fehler im programm");
