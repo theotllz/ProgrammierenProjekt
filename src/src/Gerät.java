@@ -13,13 +13,17 @@ public class Gerät implements GerätINTF {
         Verfuegbarkeit = verfuegbarkeit;
     }
 
+
     //ID
+
     public int getID() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
+
 
     //Name
     public String getName() {
@@ -29,13 +33,15 @@ public class Gerät implements GerätINTF {
         this.gerätename = name;
     }
 
-    //Verfügbarkeit
 
+    //Verfügbarkeit
 
     public boolean getVerfügbarkeit() {
         return Verfuegbarkeit;
     }
 
+
+    //Aktionen
 
     public void ausleihen() {
     if(Verfuegbarkeit){
