@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,61 +14,39 @@ public class Admin {
     private JPanel panel;
 
     private List<Device> myobjectlist;
-    private List<JButton> mybuttonlist;
 
     private JPanel inputpanel;
-    private JButton createdevice;
-    private JTextField Devname;
 
-    public Admin() {
-        initalize();
+    public Admin(JFrame welcomeframe) {
+        initalize(welcomeframe);
     }
 
-    public void initalize() {
+    public void initalize(JFrame welcomeframe) {
         //Frame
         this.frame = new JFrame();
-        this.frame.setTitle("Device manager");
-        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.frame.setTitle("Admin Window");
+        this.frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // Call your custom method
+                close(welcomeframe);
+            }
+        });
         this.frame.setSize(500, 400);
         this.frame.setLocationRelativeTo(null);
         this.frame.setResizable(true);
-        this.frame.setVisible(true);
+        this.frame.setVisible(false);
 
         //Panelerstellung
         this.panel = new JPanel();
         this.frame.add(panel, BorderLayout.CENTER);
 
-        /*//inputpanel
-        this.inputpanel = new JPanel();
-        this.frame.add(inputpanel, BorderLayout.SOUTH);
-        this.createdevice = new JButton("Createdevice");
-        this.Devname = new JTextField("hier gerätname");
-
-        Devname.setPreferredSize(new Dimension(200, 30));
-        this.inputpanel.add(Devname, BorderLayout.WEST);
-        this.inputpanel.add(createdevice);*/
-
-        /*//actionlistener
-        createdevice.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("button clicked");
-            }
-        });*/
 
         //Objektspeicherung
         List<Device> myobjectlist = new ArrayList<>();
         this.myobjectlist = myobjectlist;
 
-        //Beispiel
-
-
-        //Buttons
-        List<JButton> mybuttonlist = new ArrayList<>();
-        this.mybuttonlist = mybuttonlist;
-        //for (Device myobject : this.myobjectlist) {
-        //    this.panel.add(new JButton(myobject.getName()));
-        //}
 
         JButton addDeviceButton = new JButton("Add Device");
         addDeviceButton.addActionListener(new ActionListener() {
@@ -114,6 +94,16 @@ public class Admin {
     private void removeDevice(Device device) {
         myobjectlist.remove(device);
         updateDevicePanel();
+    }
+
+    public void visible(){
+        frame.setVisible(true);
+    }
+
+    public int close(JFrame welcomeframe){
+        this.frame.setVisible(false);
+        welcomeframe.setVisible(true);
+        return 0;
     }
 }
 
