@@ -51,6 +51,7 @@ public class Welcome {
             }
         });
 
+        //noch zu implementieren!
         JButton userBT = new JButton("User");
 
         this.panel.add(openadminBT);

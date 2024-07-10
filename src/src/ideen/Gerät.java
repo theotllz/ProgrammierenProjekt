@@ -1,4 +1,4 @@
-package src.ideen;
+/*package src.ideen;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -35,7 +35,7 @@ public class Gerät {
 
 
     //Verfügbarkeit
-
+    /*
     public boolean getVerfügbarkeit() {
         return Verfuegbarkeit;
     }
@@ -73,4 +73,4 @@ public class Gerät {
 
 
 
-    }
+    }*/
