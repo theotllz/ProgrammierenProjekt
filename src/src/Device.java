@@ -5,6 +5,7 @@ public class Device {
     private boolean Verfuegbarkeit;
     //später ersetzen durch Variable von Personenklasse
     public String Ausleiher;
+    public String Notizen;
 
 
     public Device(String name) {
