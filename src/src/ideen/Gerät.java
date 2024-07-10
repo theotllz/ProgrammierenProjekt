@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 public class Gerät {
     private int id;
     private String gerätename;
-    private boolean Verfuegbarkeit;
+
 
     public Gerät(int id, String gerätename, boolean verfuegbarkeit) {
         this.id = id;

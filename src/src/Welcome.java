@@ -9,10 +9,12 @@ public class Welcome {
     private JFrame frame;
     private JPanel panel;
     private Admin Adminframe;
-    public Welcome(){
+
+    public Welcome() {
         initialize();
     }
-    public void initialize(){
+
+    public void initialize() {
         this.frame = new JFrame();
         this.frame.setTitle("Welcome");
         this.frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -21,7 +23,6 @@ public class Welcome {
         this.frame.setResizable(true);
         this.frame.setVisible(true);
         this.Adminframe = new Admin(frame);
-
 
 
         this.panel = new JPanel();
@@ -38,7 +39,7 @@ public class Welcome {
                 + "Danke dir,<br>"
                 + "Grüße Theo"
                 + "</span></html>");
-        textPane.setFont (textPane.getFont().deriveFont(13));
+        textPane.setFont(textPane.getFont().deriveFont(13));
         this.panel.add(textPane);
 
 
@@ -56,7 +57,8 @@ public class Welcome {
         this.panel.add(userBT);
     }
 
-    public void WelcomeVisible(){
+    //Um Welcome Fenster von außen sichtbar zu machen
+    public void WelcomeVisible() {
         this.frame.setVisible(true);
     }
 }
