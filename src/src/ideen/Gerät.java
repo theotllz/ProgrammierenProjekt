@@ -1,8 +1,8 @@
-package src;
+package src.ideen;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Gerät implements GerätINTF {
+public class Gerät {
     private int id;
     private String gerätename;
     private boolean Verfuegbarkeit;
@@ -48,7 +48,7 @@ public class Gerät implements GerätINTF {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formattedDateTime = now.format(formatter);
-        System.out.println("src.Gerät zum Zeitpunkt " + formattedDateTime + " ausgeliehen\n");
+        System.out.println("src.ideen.Gerät zum Zeitpunkt " + formattedDateTime + " ausgeliehen\n");
         Verfuegbarkeit =false;
     }
     else {
