@@ -8,7 +8,8 @@ public class JFrameDemo {
         SwingUtilities.invokeLater(new Runnable() {
 
             public void run() {
-                JFrametwo frame = new JFrametwo();
+                Admin frame = new Admin();
+
 
             }
         });

@@ -1,9 +1,9 @@
 package src;
 
-public class Beispielklasse {
+public class Device {
     private String name;
 
-    public Beispielklasse(String name) {
+    public Device(String name) {
         this.name = name;
     }
     public String getName() {
