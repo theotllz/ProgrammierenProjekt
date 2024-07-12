@@ -1,4 +1,5 @@
-/*package src;
+package src.Devicemanagementprojekt;
+
 
 import javax.swing.*;
 
@@ -15,5 +16,5 @@ public class JFrameDemo {
 
     }
 }
-*/
+
 

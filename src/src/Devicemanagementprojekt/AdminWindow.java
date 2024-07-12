@@ -1,0 +1,155 @@
+package src.Devicemanagementprojekt;
+
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+public class AdminWindow {
+    private JFrame frame;
+    private JPanel DevicePanel;
+    private JPanel StaticPanel;
+    //private User user;
+    private JPanel exit;
+
+
+    public AdminWindow(JFrame welcomeframe, User user, DB Datenbank) {
+        initalize(welcomeframe, user, Datenbank);
+    }
+
+
+    public void initalize(JFrame welcomeframe, User user, DB Datenbank) {
+        //this.user = user;
+
+        frame = new JFrame();
+        frame.setVisible(true);
+        frame.setTitle("Manager");
+        frame.setSize(400, 400);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                close(frame, welcomeframe);
+            }
+        });
+
+        StaticPanel = new JPanel();
+        frame.add(StaticPanel, BorderLayout.SOUTH);
+        DevicePanel = new JPanel();
+        updateDevicePanel(Datenbank);
+
+        exit = new JPanel();
+        frame.add(exit, BorderLayout.NORTH);
+        frame.add(DevicePanel, BorderLayout.CENTER);
+
+        //exit button
+        JButton exitBT = new JButton("Exit");
+        exitBT.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                close(frame, welcomeframe);
+            }
+        });
+        exit.add(exitBT);
+
+
+        JButton addDeviceButton = new JButton("Add Device");
+        addDeviceButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                createNewDevice(Datenbank);
+            }
+        });
+        StaticPanel.add(addDeviceButton);
+
+
+    }
+
+
+    public void updateDevicePanel(DB Datenbank) {
+        this.DevicePanel.removeAll();
+        //für jedes Gerät folgende iteration
+        for (Device device : Datenbank.getDeviceList()) {
+
+            //neues Panel erstellen
+            JPanel deviceRow = new JPanel();
+            deviceRow.setLayout(new BorderLayout());
+
+            //Devicenamelabel
+            JLabel deviceNameLabel = new JLabel(device.getName());
+            deviceRow.add(deviceNameLabel, BorderLayout.WEST);
+
+
+            //Ausleihenbutton(muss zu zurückgeben button geändert werden)
+            /*JButton verfügbarkeitaendernBT = new JButton("?");
+            if (device.getVerfuegbarkeit()) {
+                deviceNameLabel = new JLabel(device.getName() + " verfügbar");
+                //verfügbarkeitaendernBT = new JButton("Ausleihen");
+            } else {
+                deviceNameLabel = new JLabel(device.getName());
+                //verfügbarkeitaendernBT = new JButton("Zurückgeben");
+            }*/
+
+
+            //Remove button
+            JButton removeButton = new JButton("Removedevice");
+            removeButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    removeDevice(Datenbank, device);
+                }
+            });
+            deviceRow.add(removeButton, BorderLayout.CENTER);
+
+
+            //zusammenführen
+            DevicePanel.add(deviceRow);
+        }
+
+        //Update Panel
+        DevicePanel.revalidate();
+        DevicePanel.repaint();
+    }
+
+
+
+    private void createNewDevice(DB Datenbank) {
+        String deviceName = JOptionPane.showInputDialog(frame, "Enter device name:");
+        if (deviceName != null && !deviceName.trim().isEmpty()) {
+            Device newDevice = new Device(deviceName);
+            Datenbank.getDeviceList().add(newDevice);
+            updateDevicePanel(Datenbank);
+        } else {
+            JOptionPane.showMessageDialog(frame, "Device name cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    //methode zum entfernen eines Objektes
+    private void removeDevice(DB Datenbank, Device device) {
+        Datenbank.getDeviceList().remove(device);
+        updateDevicePanel(Datenbank);
+    }
+
+
+
+    private void close(JFrame frame, JFrame welcomeframe) {
+        frame.setVisible(false);
+        welcomeframe.setVisible(true);
+    }
+
+    private void removeDevice(Device device, DB Datenbank) {
+        Datenbank.getDeviceList().remove(device);
+        updateDevicePanel(Datenbank);
+    }
+
+    public void visibility(boolean visible, DB Datenbank) {
+        this.frame.setVisible(visible);
+        updateDevicePanel(Datenbank);
+    }
+
+
+}
+
+

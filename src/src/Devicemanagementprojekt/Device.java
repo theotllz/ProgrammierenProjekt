@@ -1,4 +1,4 @@
-package src;
+package src.Devicemanagementprojekt;
 
 public class Device {
     private String name;
@@ -21,16 +21,25 @@ public class Device {
         this.name = name;
     }
 
-
+    //Verfügbarkeit Getter Setter
     public boolean getVerfuegbarkeit() {
         return Verfuegbarkeit;
     }
-    public void setVerfuegbarkeit(boolean verfuegbarkeit, int Ausleiher) {
-        this.Verfuegbarkeit = verfuegbarkeit;
+
+    public void Ausleihen(int Ausleiher) {
+        this.Verfuegbarkeit = false;
         this.Ausleiher = Ausleiher;
     }
+    public void Rückgabe(){
+        this.Verfuegbarkeit = true;
+    }
+
+
 
     public int getAusleiher() {
         return Ausleiher;
+    }
+    public void setAusleiher(int Ausleiher) {
+        this.Ausleiher = Ausleiher;
     }
 }

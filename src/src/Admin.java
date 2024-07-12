@@ -1,4 +1,4 @@
-package src;
+/*package src;
 
 import javax.swing.*;
 import java.awt.*;
@@ -73,14 +73,33 @@ public class Admin {
         for (Device device : myobjectlist) {
             JPanel deviceRow = new JPanel();
             deviceRow.setLayout(new BorderLayout());
-            JLabel deviceLabel = new JLabel(device.getName());
+
+            JLabel deviceNameLabel = new JLabel(device.getName());
+            JButton verfügbarkeitaendernBT = new JButton("?");
+            if (device.getVerfuegbarkeit()) {
+                deviceNameLabel = new JLabel(device.getName() + " verfügbar");
+                verfügbarkeitaendernBT = new JButton("Ausleihen");
+            } else {
+                deviceNameLabel = new JLabel(device.getName() + " ausgeliehen von " + device.getAusleiher());
+                verfügbarkeitaendernBT = new JButton("Zurücgeben");
+            }
+
+
             JButton removeButton = new JButton("Remove");
             removeButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     removeDevice(device);
                 }
             });
-            deviceRow.add(deviceLabel, BorderLayout.CENTER);
+
+            verfügbarkeitaendernBT.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    verfügbarkeitaendern(device);
+                }
+            });
+
+            deviceRow.add(verfügbarkeitaendernBT, BorderLayout.WEST);
+            deviceRow.add(deviceNameLabel, BorderLayout.CENTER);
             deviceRow.add(removeButton, BorderLayout.EAST);
             panel.add(deviceRow);
         }
@@ -97,6 +116,16 @@ public class Admin {
         updateDevicePanel();
     }
 
+    private void verfügbarkeitaendern(Device device) {
+        if (device.getVerfuegbarkeit()) {
+            device.setVerfuegbarkeit(false, 2948);
+        } else
+            device.setVerfuegbarkeit(true,1938 );
+
+        updateDevicePanel();
+    }
+
+
     //kann das Admin fenster von außerhalb verfügbar machen
     public void visible() {
         frame.setVisible(true);
@@ -109,6 +138,8 @@ public class Admin {
         welcomeframe.setVisible(true);
         return 0;
     }
-}
 
+
+}
+*/
 

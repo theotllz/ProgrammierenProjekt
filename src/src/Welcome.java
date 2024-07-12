@@ -1,4 +1,4 @@
-package src;
+/*package src;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 public class Welcome {
     private JFrame frame;
     private JPanel panel;
-    private Admin Adminframe;
+    private AdminV Adminframe;
 
     public Welcome() {
         initialize();
@@ -59,7 +59,5 @@ public class Welcome {
     }
 
     //Um Welcome Fenster von außen sichtbar zu machen
-    public void WelcomeVisible() {
-        this.frame.setVisible(true);
-    }
 }
+*/
