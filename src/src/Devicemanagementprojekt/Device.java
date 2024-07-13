@@ -6,22 +6,21 @@ public class Device {
     //später ersetzen durch Variable von Personenklasse
     public int Ausleiher;
     public String Notizen;
+    public String neuPreis;
 
 
     public Device(String name) {
         this.name = name;
         Verfuegbarkeit = true;
+        this.Notizen = "/";
+        this.neuPreis = "/";
     }
 
-    //Name Getter Setter
+
     public String getName() {
         return name;
     }
-    public void setName(String name) {
-        this.name = name;
-    }
 
-    //Verfügbarkeit Getter Setter
     public boolean getVerfuegbarkeit() {
         return Verfuegbarkeit;
     }
@@ -30,11 +29,10 @@ public class Device {
         this.Verfuegbarkeit = false;
         this.Ausleiher = Ausleiher;
     }
+
     public void Rückgabe(){
         this.Verfuegbarkeit = true;
     }
-
-
 
     public int getAusleiher() {
         return Ausleiher;
@@ -42,4 +40,20 @@ public class Device {
     public void setAusleiher(int Ausleiher) {
         this.Ausleiher = Ausleiher;
     }
+
+    public String getNotizen() {
+        return Notizen;
+    }
+
+    public void setNotizen(String Notizen) {
+        this.Notizen = Notizen;
+    }
+
+    public String getNeuPreis() {
+        return neuPreis;
+    }
+    public void setNeuPreis(String neuPreis) {
+        this.neuPreis = neuPreis;
+    }
+
 }

@@ -60,7 +60,7 @@ public class Welcome {
         //Hardcoded User
         User User1 = new User(1, "Theo", "theodor.telliez@gmail.com", "theospasswort", true);
 
-        //Button und text erstellen und zum Panel hinzufügen
+        //Make Admin Button und Text erstellen und zum Panel hinzufügen
         Admintextpanel = new JLabel(String.valueOf(User1.getAdmin()));
         this.WelcomePanel.add(Admintextpanel);
         JButton makeadmin = new JButton("MakeAdmin");
@@ -85,15 +85,19 @@ public class Welcome {
                     if (nevercreatedAdminV) {
                         AdminV = new AdminWindow(frame, User1, Datenbank);
                         AdminV.visibility(true, Datenbank);
+                        frame.setVisible(false);
                     } else {
                         AdminV.visibility(true, Datenbank);
+                        frame.setVisible(false);
                     }
                 }
                 if (!User1.getAdmin()) {
                     if (nevercreatedUserV) {
                         UserV = new UserWindow(frame, User1, Datenbank);
+                        frame.setVisible(false);
                     } else {
                         UserV.visibility(true);
+                        frame.setVisible(false);
                     }
                 }
 

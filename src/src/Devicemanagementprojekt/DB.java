@@ -17,8 +17,17 @@ public class DB {
         //hardcoded:
         Device device1 = new Device("iPhone 13pro");
         Device device2 = new Device("Dell XPS 15");
+        Device device6 = new Device("iPhone 15pro");
+        Device device5 = new Device("iPhone 15");
+        Device device4 = new Device("Siemens Fridge");
+        Device device3 = new Device("Dyson airwrap");
         deviceList.add(device1);
         deviceList.add(device2);
+        deviceList.add(device6);
+        deviceList.add(device5);
+        deviceList.add(device4);
+        deviceList.add(device3);
+
     }
 
     public List<Device> getDeviceList() {
