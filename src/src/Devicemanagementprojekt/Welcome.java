@@ -1,118 +1,122 @@
 package src.Devicemanagementprojekt;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
 
 public class Welcome {
     private JFrame frame;
-    private JPanel WelcomePanel;
+    private JPanel welcomePanel;
     private boolean nevercreatedAdminV;
     private boolean nevercreatedUserV;
-    private UserWindow UserV;
-    private AdminWindow AdminV;
-    private JLabel Admintextpanel;
-    private DB Datenbank;
+    private UserWindow userV;
+    private AdminWindow adminV;
+    private JLabel adminTextPanel;
+    private DB datenbank;
 
     public Welcome() {
         initialize();
     }
 
     public void initialize() {
+        this.datenbank = new DB(); // Initialize your database connection
 
-        this.Datenbank = new DB();
-
+        // Initialize the JFrame
         this.frame = new JFrame();
-        this.frame.setVisible(true);
-        this.frame.setResizable(true);
-        this.frame.setTitle("Welcome");
-        this.frame.setLocationRelativeTo(null);
+        this.frame.setTitle("Willkommen");
         this.frame.setSize(500, 400);
-        this.frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        this.frame.setLocationRelativeTo(null);
+        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        this.nevercreatedAdminV = true;
-        this.nevercreatedUserV = true;
+        // Create the main panel with BorderLayout
+        welcomePanel = new JPanel(new BorderLayout());
+        frame.add(welcomePanel);
 
-        this.WelcomePanel = new JPanel();
-        this.frame.add(WelcomePanel, BorderLayout.CENTER);
+        // Create a panel for the top left corner with FlowLayout
+        JPanel topLeftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        welcomePanel.add(topLeftPanel, BorderLayout.NORTH);
 
-
-        JLabel textPane = new JLabel("<html><span style='color: teal;'>"
-                + "Hallo Alex,<br>"
-                + "hier bitte eine Logik für die Anmeldung implementieren.<br>"
-                + "Ich habe eine Logik für die Fenster gemacht, so dass die Knöpfe<br>"
-                + "diese Seite verstecken und wenn Admin geschlossen wird,<br>"
-                + "wird diese Seite wieder geöffnet.<br>"
-                + "Bitte noch mit mir absprechen, wie du die Anmeldung<br>"
-                + "und das Management von Personen (Usern) handeln würdest.<br>"
-                + "Danke dir,<br>"
-                + "Grüße Theo"
-                + "diese buttons die hier sind "
-                + "werden später automatisch durch den login erkannt"
-                + "</span></html>");
-        textPane.setFont(textPane.getFont().deriveFont(13));
-        this.WelcomePanel.add(textPane);
-
-
-
-        //Hardcoded User
-        User User1 = new User(1, "Theo", "theodor.telliez@gmail.com", "theospasswort", true);
-
-        //Make Admin Button und Text erstellen und zum Panel hinzufügen
-        Admintextpanel = new JLabel(String.valueOf(User1.getAdmin()));
-        this.WelcomePanel.add(Admintextpanel);
-        JButton makeadmin = new JButton("MakeAdmin");
-        this.WelcomePanel.add(makeadmin);
-
-        //change admin status and update text
-        makeadmin.addActionListener(new ActionListener() {
+        // Button "Speichern und Schließen"
+        JButton saveAndCloseButton = new JButton("Speichern und Schließen");
+        saveAndCloseButton.setMargin(new Insets(5, 10, 5, 10)); // Adjust button padding
+        saveAndCloseButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                User1.changeAdmin();
-                Admintextpanel.setText(String.valueOf(User1.getAdmin()));
-                WelcomePanel.revalidate();
-                WelcomePanel.repaint();
+                // Add save logic if needed
+                frame.dispose(); // Close the frame
             }
         });
+        topLeftPanel.add(saveAndCloseButton);
 
+        // Panel for center controls
+        JPanel centerPanel = new JPanel(new GridLayout(3, 1, 10, 10));
+        centerPanel.setBorder(new EmptyBorder(20, 20, 20, 20)); // Add padding around the panel
 
-        //kreeirt User oder Admin Window ODER zeigt User oder Admin Window an
-        JButton Login = new JButton("Login");
-        Login.addActionListener(new ActionListener() {
+        // Hardcoded User
+        User user1 = new User(1, "Theo", "theodor.telliez@gmail.com", "theospasswort", true);
+
+        // Admin text panel
+        adminTextPanel = new JLabel(String.valueOf(user1.getAdmin()));
+        adminTextPanel.setHorizontalAlignment(JLabel.CENTER);
+        centerPanel.add(adminTextPanel);
+
+        // Make Admin button
+        JButton makeAdminButton = new JButton("MakeAdmin");
+        makeAdminButton.setBackground(Color.BLUE); // Set button background color
+        makeAdminButton.setForeground(Color.DARK_GRAY); // Set text color
+        makeAdminButton.setFont(new Font("Arial", Font.BOLD, 16)); // Set font
+        makeAdminButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (User1.getAdmin()) {
+                user1.changeAdmin();
+                adminTextPanel.setText(String.valueOf(user1.getAdmin()));
+            }
+        });
+        centerPanel.add(makeAdminButton);
+
+        // Login button
+        JButton loginButton = new JButton("Login");
+        loginButton.setBackground(Color.GREEN); // Set button background color
+        loginButton.setForeground(Color.DARK_GRAY); // Set text color
+        loginButton.setFont(new Font("Arial", Font.BOLD, 16)); // Set font
+        loginButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (user1.getAdmin()) {
                     if (nevercreatedAdminV) {
-                        AdminV = new AdminWindow(frame, User1, Datenbank);
-                        AdminV.visibility(true, Datenbank);
-                        frame.setVisible(false);
+                        adminV = new AdminWindow(frame, user1, datenbank);
+                        adminV.visibility(true, datenbank);
                     } else {
-                        AdminV.visibility(true, Datenbank);
-                        frame.setVisible(false);
+                        adminV.visibility(true, datenbank);
                     }
-                }
-                if (!User1.getAdmin()) {
+                } else {
                     if (nevercreatedUserV) {
-                        UserV = new UserWindow(frame, User1, Datenbank);
-                        frame.setVisible(false);
+                        userV = new UserWindow(frame, user1, datenbank);
                     } else {
-                        UserV.visibility(true);
-                        frame.setVisible(false);
+                        userV.visibility(true);
                     }
                 }
-
+                frame.setVisible(false); // Hide the Welcome window after login
             }
         });
+        centerPanel.add(loginButton);
 
-        //stellvertretend für Login mechanismus
-        this.WelcomePanel.add(Login);
+        welcomePanel.add(centerPanel, BorderLayout.CENTER);
 
+        // Set initial visibility flags
+        nevercreatedAdminV = true;
+        nevercreatedUserV = true;
+
+        // Make the frame visible
+        frame.setVisible(true);
     }
 
-
-    //Um Welcome Fenster von außen sichtbar zu machen
-    public void WelcomeVisible() {
+    // Method to make the Welcome window visible externally
+    public void welcomeVisible() {
         this.frame.setVisible(true);
     }
 
+    // Test main method
+    /*public static void main(String[] args) {
+        Welcome welcome = new Welcome();
+    }*/
 }
