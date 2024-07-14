@@ -1,21 +1,23 @@
 package src.Devicemanagementprojekt;
 
-public class Device {
+import java.io.Serializable;
+
+public class Device implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String name;
     private boolean Verfuegbarkeit;
-    //später ersetzen durch Variable von Personenklasse
+    // später ersetzen durch Variable von Personenklasse
     public int Ausleiher;
     public String Notizen;
     public String neuPreis;
 
-
     public Device(String name) {
         this.name = name;
-        Verfuegbarkeit = true;
+        this.Verfuegbarkeit = true;
         this.Notizen = "/";
         this.neuPreis = "/";
     }
-
 
     public String getName() {
         return name;
@@ -30,13 +32,14 @@ public class Device {
         this.Ausleiher = Ausleiher;
     }
 
-    public void Rückgabe(){
+    public void Rückgabe() {
         this.Verfuegbarkeit = true;
     }
 
     public int getAusleiher() {
         return Ausleiher;
     }
+
     public void setAusleiher(int Ausleiher) {
         this.Ausleiher = Ausleiher;
     }
@@ -52,8 +55,8 @@ public class Device {
     public String getNeuPreis() {
         return neuPreis;
     }
+
     public void setNeuPreis(String neuPreis) {
         this.neuPreis = neuPreis;
     }
-
 }

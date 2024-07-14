@@ -9,6 +9,7 @@ public class JFrameDemo {
         SwingUtilities.invokeLater(new Runnable() {
 
             public void run() {
+
                 Welcome welcome = new Welcome();
 
             }

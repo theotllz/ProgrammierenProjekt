@@ -1,9 +1,10 @@
 package src.Devicemanagementprojekt;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DB {
+public class DB implements Serializable {
     private List<Device> deviceList;
     private List<User> userList;
 

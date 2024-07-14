@@ -5,6 +5,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
 
 public class Welcome {
     private JFrame frame;
@@ -15,13 +16,15 @@ public class Welcome {
     private AdminWindow adminV;
     private JLabel adminTextPanel;
     private DB datenbank;
+    private static final String DATABASE_FOLDER = "database";
+    private static final String DATABASE_FILE = "database.ser";
 
     public Welcome() {
         initialize();
     }
 
     public void initialize() {
-        this.datenbank = new DB(); // Initialize your database connection
+        loadDatabase(); // Initialize your database connection
 
         // Initialize the JFrame
         this.frame = new JFrame();
@@ -44,6 +47,13 @@ public class Welcome {
         saveAndCloseButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Add save logic if needed
+                try{
+                    saveDatabase();
+                }
+                catch(Exception ex){
+                    System.out.println("Error");
+                }
+
                 frame.dispose(); // Close the frame
             }
         });
@@ -113,6 +123,58 @@ public class Welcome {
     // Method to make the Welcome window visible externally
     public void welcomeVisible() {
         this.frame.setVisible(true);
+    }
+
+    private void saveDatabase() {
+        try {
+            String path = getRunningFilePath();
+            System.out.println(path);
+            File file = new File(path, DATABASE_FILE);
+
+            FileOutputStream fileOut = new FileOutputStream(file);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(datenbank);
+            out.close();
+            fileOut.close();
+            System.out.println("Database object saved at " + file.getAbsolutePath());
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+    }
+
+    private void loadDatabase() {
+        try {
+            String path = getRunningFilePath();
+            File file = new File(path, DATABASE_FILE);
+            if (file.exists()) {
+                FileInputStream fileIn = new FileInputStream(file);
+                ObjectInputStream in = new ObjectInputStream(fileIn);
+                datenbank = (DB) in.readObject();
+                in.close();
+                fileIn.close();
+                System.out.println("Database object loaded from " + file.getAbsolutePath());
+            } else {
+                // Initialize a new database if not found
+                datenbank = new DB();
+                System.out.println("New database object created.");
+            }
+        } catch (IOException i) {
+            i.printStackTrace();
+        } catch (ClassNotFoundException c) {
+            System.out.println("Database class not found.");
+            c.printStackTrace();
+        }
+    }
+
+
+    private String getRunningFilePath() {
+        try {
+            String path = Welcome.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+            return new File(path).getParent();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     // Test main method
