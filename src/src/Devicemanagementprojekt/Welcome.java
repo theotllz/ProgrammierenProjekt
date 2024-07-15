@@ -166,7 +166,6 @@ public class Welcome {
         }
     }
 
-
     private String getRunningFilePath() {
         try {
             String path = Welcome.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
@@ -177,8 +176,4 @@ public class Welcome {
         }
     }
 
-    // Test main method
-    /*public static void main(String[] args) {
-        Welcome welcome = new Welcome();
-    }*/
 }

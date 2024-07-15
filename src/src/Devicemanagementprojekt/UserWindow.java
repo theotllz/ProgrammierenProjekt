@@ -43,7 +43,7 @@ public class UserWindow {
     public void initialize(JFrame welcomeframe, User user, DB Datenbank) {
         this.user = user;
         this.frame = new JFrame();
-        this.frame.setSize(600, 600);
+        this.frame.setSize(715, 570);
         this.frame.setTitle("Customer View");
         this.frame.setLayout(new BorderLayout());
 
@@ -75,7 +75,7 @@ public class UserWindow {
 
         // DevicePanel
         ADevicePanel = new JPanel();
-        ADevicePanel.setLayout(new GridLayout(0, 2, 10, 10)); // GridLayout for square frames
+        ADevicePanel.setLayout(new GridLayout(0, 3, 15, 20)); // GridLayout for square frames
         updateDevicePanel(Datenbank);
         JScrollPane scrollPane = new JScrollPane(ADevicePanel);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
@@ -88,16 +88,32 @@ public class UserWindow {
         // For each device in the list
         for (Device device : Datenbank.getDeviceList()) {
             // Create a custom rounded panel for each device
-            RoundedPanel devicePanel = new RoundedPanel(15);
-            devicePanel.setLayout(new BorderLayout(10, 10));
-            devicePanel.setBackground(new Color(220, 220, 220));
+            RoundedPanel devicePanel = new RoundedPanel(25);
+            devicePanel.setLayout(new BorderLayout(15, 20));
+            devicePanel.setBackground(new Color(71, 71, 71));
             devicePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-            devicePanel.setPreferredSize(new Dimension(200, 150)); // Set preferred size for square frames
+
+            // Set fixed size for the device panel
+            Dimension fixedSize = new Dimension(229, 234);
+            devicePanel.setPreferredSize(fixedSize);
+            devicePanel.setMinimumSize(fixedSize);
+            devicePanel.setMaximumSize(fixedSize);
 
             // Device name label
             JLabel deviceNameLabel = new JLabel(device.getName());
             deviceNameLabel.setFont(new Font("Arial", Font.BOLD, 14));
             devicePanel.add(deviceNameLabel, BorderLayout.NORTH);
+
+            //Panel für Notiz und NotizenButton
+            RoundedPanel DetailsandDetails = new RoundedPanel(20);
+            DetailsandDetails.setBackground(new Color(151, 151, 151));
+            DetailsandDetails.setLayout(new GridLayout(2, 0, 10, 10));
+            DetailsandDetails.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+            //Note
+            JLabel note = new JLabel(device.getNotizen());
+            note.setFont(new Font("Arial", Font.BOLD, 12));
+            DetailsandDetails.add(note, BorderLayout.NORTH);
 
             // Details button
             JButton detailsButton = new JButton("Details");
@@ -107,11 +123,16 @@ public class UserWindow {
                     openDetailsWindow(device);
                 }
             });
-            devicePanel.add(detailsButton, BorderLayout.CENTER);
+            DetailsandDetails.add(detailsButton, BorderLayout.CENTER);
+
+            DetailsandDetails.setVisible(true);
+            devicePanel.add(DetailsandDetails, BorderLayout.CENTER);
 
             // Rent/Return button
             JPanel buttonPanel = new JPanel();
             buttonPanel.setLayout(new BorderLayout());
+            buttonPanel.setPreferredSize(new Dimension(50, 50));
+            buttonPanel.setSize(new Dimension(50, 50));
             if (device.getVerfuegbarkeit()) {
                 JButton ausleihenButton = new JButton("Ausleihen");
                 ausleihenButton.addActionListener(new ActionListener() {

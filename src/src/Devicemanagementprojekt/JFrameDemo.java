@@ -3,7 +3,8 @@ package src.Devicemanagementprojekt;
 
 import javax.swing.*;
 
-public class JFrameDemo {
+public class
+JFrameDemo {
     public static void main(String[] args) {
 
         SwingUtilities.invokeLater(new Runnable() {
