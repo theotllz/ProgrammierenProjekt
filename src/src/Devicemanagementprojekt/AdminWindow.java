@@ -13,7 +13,8 @@ public class AdminWindow {
     private JPanel DevicePanel;
     private JPanel StaticPanel;
     private JPanel exit;
-
+    private DB Datenbank;
+    private User user;
 
     public AdminWindow(JFrame welcomeframe, User user, DB Datenbank) {
         initalize(welcomeframe, user, Datenbank);
@@ -21,7 +22,7 @@ public class AdminWindow {
 
 
     public void initalize(JFrame welcomeframe, User user, DB Datenbank) {
-        //this.user = user;
+        this.user = user;
 
         frame = new JFrame();
         frame.setVisible(true);
@@ -37,7 +38,8 @@ public class AdminWindow {
         StaticPanel = new JPanel();
         frame.add(StaticPanel, BorderLayout.SOUTH);
         DevicePanel = new JPanel();
-        updateDevicePanel(Datenbank);
+        this.Datenbank = Datenbank;
+        updateDevicePanel(this.Datenbank);
 
         exit = new JPanel();
         frame.add(exit, BorderLayout.NORTH);
@@ -155,9 +157,9 @@ public class AdminWindow {
         welcomeframe.setVisible(true);
     }
 
-    public void visibility(boolean visible, DB Datenbank) {
+    public void visibility(boolean visible) {
         this.frame.setVisible(visible);
-        updateDevicePanel(Datenbank);
+        updateDevicePanel(this.Datenbank);
     }
 
     private void openDetailsWindow(Device device) {

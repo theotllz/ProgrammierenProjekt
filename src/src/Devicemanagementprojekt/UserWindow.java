@@ -207,7 +207,8 @@ public class UserWindow {
         welcomeframe.setVisible(true);
     }
 
-    public void visibility(boolean visible) {
+    public void visibility(boolean visible, User user) {
         this.frame.setVisible(visible);
+        this.user = user;
     }
 }
