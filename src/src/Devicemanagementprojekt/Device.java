@@ -34,6 +34,7 @@ public class Device implements Serializable {
 
     public void Rückgabe() {
         this.Verfuegbarkeit = true;
+        setAusleiher(12437);
     }
 
     public int getAusleiher() {

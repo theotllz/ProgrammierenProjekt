@@ -8,14 +8,19 @@ import java.awt.event.ActionListener;
 import java.io.*;
 
 public class Welcome {
+    //Frame und Panel
     private JFrame frame;
     private JPanel welcomePanel;
+    //gegen Doppelterstellung
     private boolean nevercreatedAdminV;
     private boolean nevercreatedUserV;
+    //Fenster
     private UserWindow userV;
     private AdminWindow adminV;
+    //Text und Datenbank
     private JLabel adminTextPanel;
     private DB datenbank;
+    //Dateiname bei Serialisierung
     private static final String DATABASE_FOLDER = "database";
     private static final String DATABASE_FILE = "database.ser";
 
@@ -65,6 +70,9 @@ public class Welcome {
 
         // Hardcoded User
         User user1 = new User(1, "Theo", "theodor.telliez@gmail.com", "theospasswort", true);
+        User user2 = new User(2, "alex", "Alexwalosycxysyk@gmail.com", "alexspasswort", false);
+        datenbank.getUserList().add(user1);
+        datenbank.getUserList().add(user2);
 
         // Admin text panel
         adminTextPanel = new JLabel(String.valueOf(user1.getAdmin()));

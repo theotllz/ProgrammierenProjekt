@@ -2,7 +2,9 @@ package src.Devicemanagementprojekt;
 
 import src.Device;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
 
     private int id;
     private String name;
@@ -10,7 +12,7 @@ public class User {
     private String password;
     private boolean Admin;
 
-    public User(int id, String name, String email, String password, boolean Admin) {
+    public User(int id, String name, String email, String password, boolean Admin){
         this.id = id;
         this.name = name;
         this.email = email;
@@ -18,12 +20,6 @@ public class User {
         this.Admin = Admin;
     }
 
-    public void ausleihen(Device device){
-        device.setVerfuegbarkeit(false, id);
-    }
-    public void zurückgeben(Device device){
-        device.setVerfuegbarkeit(true, 12437);
-    }
     public int getId() {
         return id;
     }
@@ -42,5 +38,9 @@ public class User {
         else{
             Admin = true;
         }
+    }
+
+    public String getName() {
+        return name;
     }
 }

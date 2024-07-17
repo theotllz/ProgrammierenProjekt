@@ -26,7 +26,7 @@ public class AdminWindow {
         frame = new JFrame();
         frame.setVisible(true);
         frame.setTitle("Manager");
-        frame.setSize(400, 400);
+        frame.setSize(600, 400);
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -77,7 +77,30 @@ public class AdminWindow {
             deviceRow.setLayout(new BorderLayout());
 
             //Devicenamelabel
-            JLabel deviceNameLabel = new JLabel(device.getName());
+            String Ausleihstatus = "";
+            String Name = "";
+            if (device.getAusleiher() != 12437 && device.getAusleiher() != 0) {
+                System.out.println("in der if abfrage");
+                for (User user : Datenbank.getUserList()) {
+                    System.out.println("in der for schleife");
+                    if (device.getAusleiher() == user.getId()) {
+                        Name = user.getName();
+                        System.out.println(Name);
+                    }
+                }
+                Ausleihstatus = " ausgeliehen von " + Name;
+            } else {
+                Ausleihstatus = " ist verfügbar";
+            }
+
+
+
+            JLabel deviceNameLabel = new JLabel(device.getName() + Ausleihstatus);
+            if (Ausleihstatus.equals(" ist verfügbar")) {
+                deviceNameLabel.setForeground(new Color(27, 87, 0));
+            } else {
+                deviceNameLabel.setForeground(Color.RED);
+            }
             deviceRow.add(deviceNameLabel, BorderLayout.WEST);
 
             //Details Fenster
@@ -111,7 +134,6 @@ public class AdminWindow {
     }
 
 
-
     private void createNewDevice(DB Datenbank) {
         String deviceName = JOptionPane.showInputDialog(frame, "Enter device name:");
         if (deviceName != null && !deviceName.trim().isEmpty()) {
@@ -131,11 +153,6 @@ public class AdminWindow {
     private void close(JFrame frame, JFrame welcomeframe) {
         frame.setVisible(false);
         welcomeframe.setVisible(true);
-    }
-
-    private void removeDevice(Device device, DB Datenbank) {
-        Datenbank.getDeviceList().remove(device);
-        updateDevicePanel(Datenbank);
     }
 
     public void visibility(boolean visible, DB Datenbank) {
@@ -204,7 +221,6 @@ public class AdminWindow {
 
         frame.setVisible(true);
     }
-
 
 
 }

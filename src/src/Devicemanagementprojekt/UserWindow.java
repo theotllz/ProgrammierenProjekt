@@ -43,7 +43,7 @@ public class UserWindow {
     public void initialize(JFrame welcomeframe, User user, DB Datenbank) {
         this.user = user;
         this.frame = new JFrame();
-        this.frame.setSize(715, 570);
+        this.frame.setSize(740, 570);
         this.frame.setTitle("Customer View");
         this.frame.setLayout(new BorderLayout());
 
