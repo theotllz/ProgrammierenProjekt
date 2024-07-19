@@ -25,6 +25,8 @@ public class Welcome {
     JFrame Registerframe;
     JPanel Registerpanel;
 
+    private User Loginuser;
+
     public Welcome() {
         initialize();
     }
@@ -32,9 +34,7 @@ public class Welcome {
     public void initialize() {
         //läd informationen von serialisierter Datei oder erstellt neue DB
         loadDatabase();
-        userCreate();
-
-        //nevercreated buttons
+        //nevercreated windows
         nevercreatedAdminV = true;
         nevercreatedUserV = true;
 
@@ -44,6 +44,8 @@ public class Welcome {
         this.frame.setSize(500, 400);
         this.frame.setLocationRelativeTo(null);
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+
 
         // Create the main panel with BorderLayout
         welcomePanel = new JPanel(new BorderLayout());
@@ -66,6 +68,20 @@ public class Welcome {
 
             frame.dispose(); // Close the frame
         });
+
+
+        saveAndCloseButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Add save logic if needed
+                try {
+                    saveDatabase();
+                } catch (Exception ex) {
+                    System.out.println("Error");
+                }
+
+                frame.dispose(); // Close the frame
+            }
+        });
         topLeftPanel.add(saveAndCloseButton);
 
         // Panel for center controls
@@ -73,57 +89,54 @@ public class Welcome {
         centerPanel.setBorder(new EmptyBorder(20, 20, 20, 20)); // Add padding around the panel
 
         // Hardcoded User
-        User user1 = new User(1, "Theo", "theodor.telliez@gmail.com", "theospasswort", true);
-        User user2 = new User(2, "alex", "Alexwalosycxysyk@gmail.com", "alexspasswort", false);
+        User user1 = new User(1, "Theo", "theodor.telliez@gmail.com", "123", true);
+        User user2 = new User(2, "alex", "Alexwalosycxysyk@gmail.com", "123", false);
+
         datenbank.getUserList().add(user1);
         datenbank.getUserList().add(user2);
 
-        // Admin text panel
-        adminTextPanel = new JLabel(String.valueOf(user1.getAdmin()));
-        adminTextPanel.setHorizontalAlignment(JLabel.CENTER);
-        centerPanel.add(adminTextPanel);
+        JTextField UsernameField = new JTextField(15);
+        JPasswordField PasswordField = new JPasswordField(15);
+        centerPanel.add(UsernameField);
+        centerPanel.add(PasswordField);
 
-        // Make Admin button
-        JButton makeAdminButton = new JButton("MakeAdmin");
-        //Formatierung
-        makeAdminButton.setBackground(Color.BLUE); // Set button background color
-        makeAdminButton.setForeground(Color.DARK_GRAY); // Set text color
-        makeAdminButton.setFont(new Font("Arial", Font.BOLD, 16)); // Set font
-        //Actionlistener
-        makeAdminButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                //ändert adminastatus
-                user1.changeAdmin();
-                adminTextPanel.setText(String.valueOf(user1.getAdmin()));
-            }
-        });
-        centerPanel.add(makeAdminButton);
-
-        // Login button
+        //LOGIN BUTTON & ACTION
         JButton loginButton = new JButton("Login");
         loginButton.setBackground(Color.GREEN); // Set button background color
         loginButton.setForeground(Color.DARK_GRAY); // Set text color
         loginButton.setFont(new Font("Arial", Font.BOLD, 16)); // Set font
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (user1.getAdmin()) {
-                    if (nevercreatedAdminV) {
-                        adminV = new AdminWindow(frame, user1, datenbank);
-                        adminV.visibility(true);
-                    } else {
-                        adminV.visibility(true);
-                    }
-                } else {
-                    if (nevercreatedUserV) {
-                        userV = new UserWindow(frame, user1, datenbank);
-                    } else {
-                        userV.visibility(true, user1);
-                    }
+
+                Loginuser = userCheck(UsernameField, PasswordField);
+                if(Loginuser ==null){
+                    initialize();
                 }
-                frame.setVisible(false); // Hide the Welcome window after login
+                else {
+                    if (Loginuser.getAdmin()) {
+                        if (nevercreatedAdminV) {
+                            //initialize();
+                            adminV = new AdminWindow(frame, Loginuser, datenbank);
+                            adminV.visibility(true);
+                        } else {
+                            //initialize();
+                            adminV.visibility(true);
+                        }
+                    } else {
+                        if (nevercreatedUserV) {
+                            //initialize();
+                            userV = new UserWindow(frame, Loginuser, datenbank);
+                        } else {
+                            //initialize();
+                            userV.visibility(true, Loginuser);
+                        }
+                    }
+                    frame.setVisible(false); // Hide the Welcome window after login
+                }
             }
         });
         centerPanel.add(loginButton);
+
 
         welcomePanel.add(centerPanel, BorderLayout.CENTER);
 
@@ -132,9 +145,12 @@ public class Welcome {
         frame.setVisible(true);
     }
 
+
+
     // Method to make the Welcome window visible externally
     public void welcomeVisible() {
         this.frame.setVisible(true);
+
     }
 
     private void saveDatabase() {
@@ -178,17 +194,24 @@ public class Welcome {
         }
     }
 
-    //Methode zur erstellung eines neuen nutzers
-    private void userCreate() {
-
-        Registerframe = new JFrame("Benutzer erstellen");
-        Registerframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Registerpanel = new JPanel(new GridBagLayout());
-        Registerframe.add(Registerpanel);
-        updatepanelREGISTER(false);
+    public User userCheck(JTextField UsernameField, JTextField PasswordField) {
+        for (User user : datenbank.getUserList()) {
+            if (UsernameField.getText().equals(user.getName())) {
+                System.out.println("checkname");
+                if (user.getPassword().equals(PasswordField.getText())) {
+                    System.out.println("checkpw");
+                    return user;
+                }
+            }
+        }
+        System.out.println("Username or passwort wrong");
+        return null;
     }
 
-    private void updatepanelREGISTER(boolean bereitsvergebenID){
+    //Methode zur erstellung eines neuen nutzers
+
+
+    /*private void updatepanelREGISTER(int fehlercode){
         Registerpanel.add(new JLabel("blabla"));
         Registerpanel.removeAll();
         int i = 1;
@@ -204,8 +227,106 @@ public class Welcome {
         JTextPane setPW = new JTextPane();
         JButton registerButton = new JButton("Registrieren");
         JLabel namenichtverfügbarmeldung = new JLabel("Nutzername vergeben!");
+        JLabel bittezahl = new JLabel("Gib bitte eine Zahl ein");
+        JLabel pwmusssein = new JLabel("Bitte passwort eingeben");
 
         // Adjust grid bag constraints for each component
+
+        // Id Label
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(5, 5, 5, 5); // Margin around the components
+        gbc.anchor = GridBagConstraints.EAST;
+        Registerpanel.add(aufforderungIDLabel, gbc);
+
+        // Id Eingabe
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
+        Registerpanel.add(IDeingabe, gbc);
+
+        //bereitsvergeben
+        if(fehlercode==1||fehlercode==11){
+            gbc.gridx = 1;
+            gbc.gridy = i;
+            gbc.insets = new Insets(5, 5, 5, 5); // Margin around the components
+            gbc.anchor = GridBagConstraints.EAST;
+            Registerpanel.add(namenichtverfügbarmeldung, gbc);
+            i++;
+        }
+
+        if(fehlercode==2||fehlercode==12){
+            gbc.gridx = 1;
+            gbc.gridy = i;
+            gbc.insets = new Insets(5, 5, 5, 5); // Margin around the components
+            gbc.anchor = GridBagConstraints.EAST;
+            Registerpanel.add(bittezahl, gbc);
+            i++;
+        }
+
+        // Password Label
+        gbc.gridx = 0;
+        gbc.gridy = i;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0;
+        Registerpanel.add(aufforderungPWLabel, gbc);
+
+        // Password Eingabe
+        gbc.gridx = 1;
+        gbc.gridy = i;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
+        Registerpanel.add(setPW, gbc);
+
+        if(fehlercode==11||fehlercode==16||fehlercode==12){
+            System.out.println("paswortleck2");
+            gbc.gridx = 0;
+            gbc.gridy = i+1;
+            gbc.gridwidth = 2;
+            gbc.insets = new Insets(5, 5, 5, 5); // Margin around the components
+            gbc.anchor = GridBagConstraints.EAST;
+            Registerpanel.add(pwmusssein, gbc);
+            i++;
+        }
+
+        // Register Button
+        gbc.gridx = 0;
+        gbc.gridy = i+1;
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.anchor = GridBagConstraints.CENTER;
+        Registerpanel.add(registerButton, gbc);
+
+        Registerframe.add(Registerpanel, BorderLayout.CENTER);
+        Registerframe.pack(); // Adjust the frame size to fit its contents
+        Registerframe.setVisible(true);
+        Registerframe.setSize(400,400);
+
+        registerButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                idcheck(IDeingabe.getText(), setPW.getText());
+
+
+            }
+        });
+    }*/
+
+    private void continueREGISTER(){
+        Registerpanel.add(new JLabel("blabla"));
+        Registerpanel.removeAll();
+        int i = 1;
+
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        // Create components
+        JLabel aufforderungIDLabel = new JLabel("Name");
+        //JTextPane IDeingabe = new JTextPane();
+        JTextField IDeingabe = new JTextField();
+
+        JLabel aufforderungPWLabel = new JLabel("Geburtstag");
+        JTextPane setPW = new JTextPane();
+        JButton registerButton = new JButton("Weiter");
 
         // Id Label
         gbc.gridx = 0;
@@ -221,15 +342,6 @@ public class Welcome {
         gbc.weightx = 1.0;
         Registerpanel.add(IDeingabe, gbc);
 
-        //bereitsvergeben
-        if(bereitsvergebenID){
-            gbc.gridx = i;
-            gbc.gridy = 0;
-            gbc.insets = new Insets(5, 5, 5, 5); // Margin around the components
-            gbc.anchor = GridBagConstraints.WEST;
-            Registerpanel.add(namenichtverfügbarmeldung, gbc);
-            ;
-        }
 
         // Password Label
         gbc.gridx = 0;
@@ -258,17 +370,6 @@ public class Welcome {
         Registerframe.setVisible(true);
         Registerframe.setSize(400,400);
 
-        registerButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-                if(idcheck(IDeingabe.getText())){
-                    updatepanelREGISTER(true);
-                }
-                else{
-
-                }
-            }
-        });
     }
 
     private String getRunningFilePath() {
@@ -281,7 +382,18 @@ public class Welcome {
         }
     }
 
-    public boolean idcheck(String EingegebenID){
+    //Method for login for a user with password
+
+
+    /*private void userCreate() {
+
+        Registerframe = new JFrame("Benutzer erstellen");
+        Registerframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Registerpanel = new JPanel(new GridBagLayout());
+        Registerframe.add(Registerpanel);
+        updatepanelREGISTER(0);
+    }
+    public void idcheck(String EingegebenID, String EingabePW){
         boolean Dopplung = false;
         int Eiingabe = 0;
             System.out.println(EingegebenID);
@@ -298,18 +410,25 @@ public class Welcome {
 
             // Zeige eine Fehlermeldung an
             JOptionPane.showMessageDialog(frame,
-                    "Gib bitte Text ein",
+                    "ID muss eine zahl sein",
                     "Fehler",
                     JOptionPane.ERROR_MESSAGE);
-                    updatepanelREGISTER(false);
-            return false;
+                    updatepanelREGISTER(pwcheck(2, EingabePW));
         }
 
         for(User u : datenbank.getUserList()){
             if(Eiingabe==u.getId()&&Eiingabe!=0){
-                return true;
+                updatepanelREGISTER(pwcheck(1, EingabePW));
             }
         }
-        return false;
+        continueREGISTER();
     }
+    public int pwcheck(int fehlercode, String EingegebenPW){
+        int fehlercode2 = fehlercode;
+        if(EingegebenPW.equals("")){
+            fehlercode2 = fehlercode + 10;
+            System.out.println("passwortleck erkannt");
+        }
+        return fehlercode2;
+    }*/
 }
