@@ -6,25 +6,25 @@ import java.io.Serializable;
 
 public class User implements Serializable {
 
-    private int id;
+    private String username;
     private String name;
     private String email;
     private String password;
     private boolean Admin;
 
-    public User(int id, String name, String email, String password, boolean Admin){
-        this.id = id;
+    public User(String username, String name, String email, String password, boolean Admin){
+        this.username = username;
         this.name = name;
         this.email = email;
         this.password = password;
         this.Admin = Admin;
     }
 
-    public int getId() {
-        return id;
+    public String getUsername() {
+        return username;
     }
-    public void setId(int id) {
-        this.id = id;
+    public void setId(String username) {
+        this.username = username;
     }
 
     public boolean getAdmin() {

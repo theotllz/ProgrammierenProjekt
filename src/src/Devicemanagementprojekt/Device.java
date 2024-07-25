@@ -8,7 +8,7 @@ public class Device implements Serializable {
     private String name;
     private boolean Verfuegbarkeit;
     // später ersetzen durch Variable von Personenklasse
-    public int Ausleiher;
+    public String Ausleiher;
     public String Notizen;
     public String neuPreis;
 
@@ -27,21 +27,21 @@ public class Device implements Serializable {
         return Verfuegbarkeit;
     }
 
-    public void Ausleihen(int Ausleiher) {
+    public void Ausleihen(String Ausleiher) {
         this.Verfuegbarkeit = false;
         this.Ausleiher = Ausleiher;
     }
 
     public void Rückgabe() {
         this.Verfuegbarkeit = true;
-        setAusleiher(12437);
+        setAusleiher("12437");
     }
 
-    public int getAusleiher() {
+    public String getAusleiher() {
         return Ausleiher;
     }
 
-    public void setAusleiher(int Ausleiher) {
+    public void setAusleiher(String Ausleiher) {
         this.Ausleiher = Ausleiher;
     }
 

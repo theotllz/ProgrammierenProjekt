@@ -25,6 +25,7 @@ public class Welcome {
     JFrame Registerframe;
     JPanel Registerpanel;
 
+    //zum abspeichern des loginusers, methodenübergreifend
     private User Loginuser;
 
     public Welcome() {
@@ -34,69 +35,75 @@ public class Welcome {
     public void initialize() {
         //läd informationen von serialisierter Datei oder erstellt neue DB
         loadDatabase();
-        //nevercreated windows
+        //nevercreated windows(damit keine Klasse doppelt erstellt werden muss)
         nevercreatedAdminV = true;
         nevercreatedUserV = true;
 
         // Initialize the JFrame
         this.frame = new JFrame();
-        this.frame.setTitle("Willkommen");
+        this.frame.setTitle("Login");
         this.frame.setSize(500, 400);
         this.frame.setLocationRelativeTo(null);
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
-
-        // Create the main panel with BorderLayout
         welcomePanel = new JPanel(new BorderLayout());
+        //füllt das Panel neu
+        updateWelcomePanel();
+    }
+
+    public void updateWelcomePanel(){
+        welcomePanel.removeAll();
         frame.add(welcomePanel);
 
-        // Create a panel for the top left corner with FlowLayout
-        JPanel topLeftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        welcomePanel.add(topLeftPanel, BorderLayout.NORTH);
+        //Top Panel
+        JPanel top = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        welcomePanel.add(top, BorderLayout.NORTH);
+
+        JPanel bottom = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        welcomePanel.add(bottom, BorderLayout.SOUTH);
 
         // Button "Speichern und Schließen"
         JButton saveAndCloseButton = new JButton("Speichern und Schließen");
-        saveAndCloseButton.setMargin(new Insets(5, 10, 5, 10)); // Adjust button padding
+        saveAndCloseButton.setMargin(new Insets(10,10,10,10)); // Adjust button padding
+        //Beendet das programm nach Speicherung
         saveAndCloseButton.addActionListener(e -> {
             try{
                 saveDatabase();
+                System.exit(0);
             }
             catch(Exception ex){
                 System.out.println("Error");
             }
 
-            frame.dispose(); // Close the frame
         });
 
+        top.add(saveAndCloseButton);
 
-        saveAndCloseButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Add save logic if needed
-                try {
-                    saveDatabase();
-                } catch (Exception ex) {
-                    System.out.println("Error");
-                }
 
-                frame.dispose(); // Close the frame
-            }
+        // Button "Registrieren"
+        JButton RegisterButton = new JButton("Register");
+        RegisterButton.setMargin(new Insets(20, 20, 20, 20)); // Adjust button padding
+        RegisterButton.addActionListener(e -> {
+                Register reg = new Register(datenbank);
         });
-        topLeftPanel.add(saveAndCloseButton);
+
+        bottom.add(RegisterButton);
+
+
 
         // Panel for center controls
         JPanel centerPanel = new JPanel(new GridLayout(3, 1, 10, 10));
         centerPanel.setBorder(new EmptyBorder(20, 20, 20, 20)); // Add padding around the panel
 
-        // Hardcoded User
-        User user1 = new User(1, "Theo", "theodor.telliez@gmail.com", "123", true);
-        User user2 = new User(2, "alex", "Alexwalosycxysyk@gmail.com", "123", false);
-
+        // Hardcoded Users
+        User user1 = new User("theo.tllz", "Theo", "theodor.telliez@gmail.com", "123", true);
+        User user2 = new User("alex.wlz", "alex", "Alexwalosycxysyk@gmail.com", "123", false);
         datenbank.getUserList().add(user1);
         datenbank.getUserList().add(user2);
 
+        //Login field
         JTextField UsernameField = new JTextField(15);
         JPasswordField PasswordField = new JPasswordField(15);
+        System.out.println("update");
         centerPanel.add(UsernameField);
         centerPanel.add(PasswordField);
 
@@ -110,24 +117,23 @@ public class Welcome {
 
                 Loginuser = userCheck(UsernameField, PasswordField);
                 if(Loginuser ==null){
-                    initialize();
+                    updateWelcomePanel();
                 }
                 else {
                     if (Loginuser.getAdmin()) {
                         if (nevercreatedAdminV) {
-                            //initialize();
+                            updateWelcomePanel();
                             adminV = new AdminWindow(frame, Loginuser, datenbank);
                             adminV.visibility(true);
                         } else {
-                            //initialize();
+                            updateWelcomePanel();
                             adminV.visibility(true);
                         }
                     } else {
                         if (nevercreatedUserV) {
-                            //initialize();
+                            updateWelcomePanel();
                             userV = new UserWindow(frame, Loginuser, datenbank);
                         } else {
-                            //initialize();
                             userV.visibility(true, Loginuser);
                         }
                     }
@@ -141,17 +147,11 @@ public class Welcome {
         welcomePanel.add(centerPanel, BorderLayout.CENTER);
 
 
-        // Make the frame visible
+        // Make the frame visible when
         frame.setVisible(true);
     }
 
-
-
-    // Method to make the Welcome window visible externally
-    public void welcomeVisible() {
-        this.frame.setVisible(true);
-
-    }
+    //Methode um fenster von user und admin fenster aus sichtbar machen zu können
 
     private void saveDatabase() {
         try {
@@ -189,17 +189,16 @@ public class Welcome {
         } catch (IOException i) {
             i.printStackTrace();
         } catch (ClassNotFoundException c) {
-            System.out.println("Database class not found.");
-            c.printStackTrace();
+            System.err.println("Database class not found.");
         }
     }
 
+
+    //checkt ob der eingegebene user existiert und ob das Passwort korrekt ist.
     public User userCheck(JTextField UsernameField, JTextField PasswordField) {
         for (User user : datenbank.getUserList()) {
-            if (UsernameField.getText().equals(user.getName())) {
-                System.out.println("checkname");
+            if (UsernameField.getText().equals(user.getUsername())) {
                 if (user.getPassword().equals(PasswordField.getText())) {
-                    System.out.println("checkpw");
                     return user;
                 }
             }
@@ -207,8 +206,6 @@ public class Welcome {
         System.out.println("Username or passwort wrong");
         return null;
     }
-
-    //Methode zur erstellung eines neuen nutzers
 
 
     /*private void updatepanelREGISTER(int fehlercode){

@@ -138,12 +138,12 @@ public class UserWindow {
                 ausleihenButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        device.Ausleihen(user.getId());
+                        device.Ausleihen(user.getUsername());
                         updateDevicePanel(Datenbank);
                     }
                 });
                 buttonPanel.add(ausleihenButton, BorderLayout.CENTER);
-            } else if (device.getAusleiher() == user.getId()) {
+            } else if (device.getAusleiher() == user.getUsername()) {
                 JButton zurueckgebenButton = new JButton("Zurückgeben");
                 zurueckgebenButton.addActionListener(new ActionListener() {
                     @Override

@@ -78,22 +78,22 @@ public class AdminWindow {
             JPanel deviceRow = new JPanel();
             deviceRow.setLayout(new BorderLayout());
 
-            //Devicenamelabel
             String Ausleihstatus = "";
             String Name = "";
-            if (device.getAusleiher() != 12437 && device.getAusleiher() != 0) {
-                System.out.println("in der if abfrage");
+            System.out.println("check");
+
+            String ausleiher = device.getAusleiher();
+            if (ausleiher != null && !(ausleiher.equals("12437")) && !(ausleiher.equals("0"))) {
                 for (User user : Datenbank.getUserList()) {
-                    System.out.println("in der for schleife");
-                    if (device.getAusleiher() == user.getId()) {
+                    if (ausleiher.equals(user.getUsername())) {
                         Name = user.getName();
-                        System.out.println(Name);
                     }
                 }
                 Ausleihstatus = " ausgeliehen von " + Name;
             } else {
                 Ausleihstatus = " ist verfügbar";
             }
+
 
 
 
