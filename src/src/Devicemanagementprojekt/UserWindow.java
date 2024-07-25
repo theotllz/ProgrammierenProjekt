@@ -152,8 +152,14 @@ public class UserWindow {
                         updateDevicePanel(Datenbank);
                     }
                 });
+
                 buttonPanel.add(zurueckgebenButton, BorderLayout.CENTER);
             }
+            else {
+                JButton uverfügbarBT = new JButton("Nicht verfügbar");
+                buttonPanel.add(uverfügbarBT, BorderLayout.CENTER);
+            }
+
             devicePanel.add(buttonPanel, BorderLayout.SOUTH);
 
             ADevicePanel.add(devicePanel);

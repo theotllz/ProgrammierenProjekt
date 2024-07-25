@@ -90,23 +90,23 @@ public class Register {
 
         registerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                idcheck(IDeingabe.getText(), new String(setPW.getPassword())); // Changed getText() for password field
+                idcheck(IDeingabe.getText(), new String(setPW.getPassword()), NameEingabe.getText()); // Changed getText() for password field
             }
         });
     }
 
-    public void idcheck(String EingabeUsN, String EingabePW) {
-        int fehlercode = 2;
+    public void idcheck(String EingabeUsN, String EingabePW, String Name) {
+        int fehlercode = 1;
         for (User u : datenbank.getUserList()) {
             System.out.println("durchgang check");
-            if (!EingabeUsN.equals(u.getUsername()) && !EingabeUsN.equals("0") && !EingabeUsN.equals("12437")) {
-                fehlercode = 1;
+            if (EingabeUsN.equals(u.getUsername()) && !EingabeUsN.equals("0") && !EingabeUsN.equals("12437")) {
+                fehlercode = 2;
             }
         }
-        if (fehlercode == 1) {
 
+        if(checkpw(EingabePW, fehlercode)==1){
+            CreateUser(EingabeUsN, EingabePW, Name);
         }
-        checkpw(EingabePW, fehlercode);
     }
 
     public int checkpw(String EingabePW, int fehlercode) {
@@ -115,5 +115,14 @@ public class Register {
         }
         System.out.println(fehlercode);
         return fehlercode;
+    }
+
+    public void CreateUser(String EingabeUsN, String EingabePW, String Name) {
+        User newuser = new User(EingabeUsN, Name, "//", EingabePW, false);
+        datenbank.getUserList().add(newuser);
+        for(User u : datenbank.getUserList()) {
+            System.out.println(u.getUsername()+" "+u.getPassword()+" "+u.getName());
+        }
+        System.out.println();
     }
 }
