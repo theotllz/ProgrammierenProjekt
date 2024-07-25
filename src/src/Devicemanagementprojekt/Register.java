@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Objects;
 
 public class Register {
     private JFrame frame;
@@ -14,24 +13,25 @@ public class Register {
     public Register(DB datenbank) {
         this.datenbank = datenbank;
         frame = new JFrame();
-        panel = new JPanel(new GridLayout());
-        updatepanel(05);
+        panel = new JPanel(new GridBagLayout());
+        frame.add(panel, BorderLayout.CENTER);
+        updatepanel(0); // changed default fehlercode to 0
+        frame.pack(); // Adjust the frame size to fit its contents
+        frame.setVisible(true);
     }
 
     public void updatepanel(int fehlercode) {
         panel.removeAll();
-        panel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
         // Create components
-        JLabel aufforderungName = new JLabel("Name eingeben: ");
+        JLabel aufforderungName = new JLabel("Name eingeben:");
         JTextField NameEingabe = new JTextField(20);
-        JLabel aufforderungIDLabel = new JLabel("Username:");
+        JLabel aufforderungIDLabel = new JLabel("Nutzernamen:");
         JTextField IDeingabe = new JTextField(20);
         JLabel aufforderungPWLabel = new JLabel("Passwort erstellen:");
         JPasswordField setPW = new JPasswordField(20);
         JButton registerButton = new JButton("Registrieren");
-
 
         // Adjust grid bag constraints for each component
 
@@ -39,7 +39,7 @@ public class Register {
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.insets = new Insets(10, 10, 10, 10); // Margin around the components
-        gbc.anchor = GridBagConstraints.EAST;
+        gbc.anchor = GridBagConstraints.WEST;
         panel.add(aufforderungName, gbc);
 
         // Name Eingabe
@@ -53,9 +53,8 @@ public class Register {
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.insets = new Insets(10, 10, 10,10); // Margin around the components
-        gbc.anchor = GridBagConstraints.EAST;
+        gbc.anchor = GridBagConstraints.WEST;
         panel.add(aufforderungIDLabel, gbc);
-
 
         // Id Eingabe
         gbc.gridx = 1;
@@ -86,39 +85,35 @@ public class Register {
         gbc.anchor = GridBagConstraints.CENTER;
         panel.add(registerButton, gbc);
 
-        frame.add(panel, BorderLayout.CENTER);
-        frame.pack(); // Adjust the frame size to fit its contents
-        frame.setVisible(true);
-        frame.setSize(400, 200); // Adjust size as needed
-
+        panel.revalidate();
+        panel.repaint();
 
         registerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                idcheck(IDeingabe.getText(), setPW.getText());
+                idcheck(IDeingabe.getText(), new String(setPW.getPassword())); // Changed getText() for password field
             }
         });
     }
 
-    public void idcheck(String EingabeUsN, String EingabePW){
+    public void idcheck(String EingabeUsN, String EingabePW) {
         int fehlercode = 2;
-        for(User u : datenbank.getUserList()){
+        for (User u : datenbank.getUserList()) {
             System.out.println("durchgang check");
-            if(!EingabeUsN.equals(u.getUsername()) && !EingabeUsN.equals("0") && !(EingabeUsN.equals("12437"))){
+            if (!EingabeUsN.equals(u.getUsername()) && !EingabeUsN.equals("0") && !EingabeUsN.equals("12437")) {
                 fehlercode = 1;
             }
         }
-        if(fehlercode == 1){
+        if (fehlercode == 1) {
 
         }
         checkpw(EingabePW, fehlercode);
     }
 
-    public int checkpw(String EingabePW,int fehlercode){
-        if(EingabePW.equals("")){
+    public int checkpw(String EingabePW, int fehlercode) {
+        if (EingabePW.equals("")) {
             fehlercode = fehlercode + 10;
         }
         System.out.println(fehlercode);
         return fehlercode;
     }
-
 }
