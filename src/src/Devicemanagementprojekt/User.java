@@ -12,9 +12,6 @@ public class User implements Serializable {
     private String password;
     private boolean Admin;
 
-    //test
-    private int number;
-
     public User(String username, String name, String email, String password, boolean Admin){
         this.username = username;
         this.name = name;
