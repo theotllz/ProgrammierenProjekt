@@ -114,13 +114,13 @@ public class UserWindow {
             JLabel note = new JLabel(device.getNotizen());
             note.setFont(new Font("Arial", Font.BOLD, 12));
             DetailsandDetails.add(note, BorderLayout.NORTH);
-
+            openDetailsUs details = new openDetailsUs(device);
             // Details button
             JButton detailsButton = new JButton("Details");
             detailsButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    openDetailsWindow(device);
+                   details.detailsvisible(device);
                 }
             });
             DetailsandDetails.add(detailsButton, BorderLayout.CENTER);
@@ -170,43 +170,7 @@ public class UserWindow {
         ADevicePanel.repaint();
     }
 
-    private void openDetailsWindow(Device device) {
-        JFrame frame = new JFrame("Details for " + device.getName());
-        frame.setSize(400, 120);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setLayout(new BorderLayout());
 
-        JPanel detailsPanel = new JPanel();
-        detailsPanel.setLayout(new BorderLayout());
-        JPanel preisPanel = new JPanel();
-        preisPanel.setLayout(new BorderLayout());
-
-        // Create a panel to hold both the label and the notes
-        JPanel notesPanel = new JPanel();
-        notesPanel.setLayout(new BorderLayout());
-        JLabel notesLabel = new JLabel("Notes:");
-        JLabel detailsText = new JLabel("<html>" + device.getNotizen().replaceAll("\n", "<br>") + "</html>");
-        notesPanel.add(notesLabel, BorderLayout.NORTH);
-        notesPanel.add(detailsText, BorderLayout.CENTER);
-
-        // Create a panel to hold both the label and the price
-        JPanel pricePanel = new JPanel();
-        pricePanel.setLayout(new BorderLayout());
-        JLabel priceLabel = new JLabel("Price:");
-        JLabel neuPreis = new JLabel(device.getNeuPreis());
-        pricePanel.add(priceLabel, BorderLayout.NORTH);
-        pricePanel.add(neuPreis, BorderLayout.CENTER);
-
-        // Add the notes and price panels to the details and price panels
-        detailsPanel.add(notesPanel, BorderLayout.CENTER);
-        preisPanel.add(pricePanel, BorderLayout.CENTER);
-
-        // Add the details and price panels to the frame
-        frame.add(detailsPanel, BorderLayout.NORTH);
-        frame.add(preisPanel, BorderLayout.SOUTH);
-
-        frame.setVisible(true);
-    }
 
     private void close(JFrame welcomeframe) {
         this.frame.setVisible(false);
