@@ -94,9 +94,9 @@ public class Register {
         gbc.weightx = 1.0;
         panel.add(setPW, gbc);
 
-        System.out.println(fehlercode+"tfg");
-        if(fehlercode == 12){
-            System.out.println("hgjcgv");
+
+        if(fehlercode == 12||fehlercode==11){
+            System.out.println("testtest");
             gbc.gridx = 0;
             gbc.gridy = 4;
             gbc.gridwidth = 2;
@@ -138,7 +138,7 @@ public class Register {
         int fehlercode = 1;
         for (User u : datenbank.getUserList()) {
             System.out.println("durchgang check");
-            if (EingabeUsN.equals(u.getUsername()) || EingabeUsN.equals("0") || EingabeUsN.equals("12437")||EingabeUsN.equals("")) {
+            if (EingabeUsN.equals(u.getUsername()) || EingabeUsN.equals("0") || EingabeUsN.equals("12437") || EingabeUsN.equals("")) {
                 fehlercode = 2;
             }
         }
@@ -147,6 +147,7 @@ public class Register {
             CreateUser(EingabeUsN, EingabePW, Name);
         }
         else{
+            System.out.println("else+ " + checkpw(EingabePW, fehlercode));
             updatepanel(checkpw(EingabePW, fehlercode));
         }
     }
