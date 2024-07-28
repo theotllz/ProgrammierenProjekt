@@ -6,6 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.time.LocalDate;
+import java.time.Period;
+
+import static java.awt.BorderLayout.*;
 
 // Custom rounded panel class
 class RoundedPanel extends JPanel {
@@ -64,14 +68,14 @@ public class UserWindow {
                 close(welcomeframe);
             }
         });
-        topPanel.add(exitBT, BorderLayout.WEST);
+        topPanel.add(exitBT, WEST);
 
         JLabel titleLabel = new JLabel("Geräteübersicht", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        topPanel.add(titleLabel, BorderLayout.CENTER);
+        topPanel.add(titleLabel, CENTER);
 
         topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        frame.add(topPanel, BorderLayout.NORTH);
+        frame.add(topPanel, NORTH);
 
         // DevicePanel
         ADevicePanel = new JPanel();
@@ -79,7 +83,7 @@ public class UserWindow {
         updateDevicePanel(Datenbank);
         JScrollPane scrollPane = new JScrollPane(ADevicePanel);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
-        frame.add(scrollPane, BorderLayout.CENTER);
+        frame.add(scrollPane, CENTER);
         frame.setVisible(true);
     }
 
@@ -102,7 +106,7 @@ public class UserWindow {
             // Device name label
             JLabel deviceNameLabel = new JLabel(device.getName());
             deviceNameLabel.setFont(new Font("Arial", Font.BOLD, 14));
-            devicePanel.add(deviceNameLabel, BorderLayout.NORTH);
+            devicePanel.add(deviceNameLabel, NORTH);
 
             //Panel für Notiz und NotizenButton
             RoundedPanel DetailsandDetails = new RoundedPanel(20);
@@ -113,14 +117,14 @@ public class UserWindow {
             //Note
             JLabel note = new JLabel(device.getNotizen());
             note.setFont(new Font("Arial", Font.BOLD, 12));
-            DetailsandDetails.add(note, BorderLayout.NORTH);
+            DetailsandDetails.add(note, NORTH);
             openDetailsUs details = new openDetailsUs(device);
             // Details button
             JButton detailsButton = new JButton("Details");
             detailsButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                   details.detailsvisible(device);
+                    details.detailsvisible(device);
                 }
             });
             DetailsandDetails.add(detailsButton, BorderLayout.CENTER);
@@ -138,24 +142,26 @@ public class UserWindow {
                 ausleihenButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        device.Ausleihen(user.getUsername());
-                        updateDevicePanel(Datenbank);
+                        if (openLoanPeriod(device)) {
+                            device.Ausleihen(user.getUsername());
+                            updateDevicePanel(Datenbank);
+                        }
                     }
                 });
                 buttonPanel.add(ausleihenButton, BorderLayout.CENTER);
-            } else if (device.getAusleiher() == user.getUsername()) {
+            } else if (device.getAusleiher().equals(user.getUsername())) {
                 JButton zurueckgebenButton = new JButton("Zurückgeben");
                 zurueckgebenButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        closeLoanPeriod(device);
                         device.Rückgabe();
                         updateDevicePanel(Datenbank);
                     }
                 });
 
                 buttonPanel.add(zurueckgebenButton, BorderLayout.CENTER);
-            }
-            else {
+            } else {
                 JButton uverfügbarBT = new JButton("Nicht verfügbar");
                 buttonPanel.add(uverfügbarBT, BorderLayout.CENTER);
             }
@@ -169,6 +175,54 @@ public class UserWindow {
         ADevicePanel.revalidate();
         ADevicePanel.repaint();
     }
+
+
+        public boolean openLoanPeriod(Device device){
+            boolean validInput = false;
+            int number = 0;
+            while (!validInput) {
+                String input = JOptionPane.showInputDialog(null, "Bitte geben Sie an wie lange Sie das Gerät ausleihen wollen:", "Eingabe", JOptionPane.QUESTION_MESSAGE);
+
+                try {
+                    if (input != null) { // Überprüfen, ob der Benutzer nicht auf Abbrechen geklickt hat
+                        number = Integer.parseInt(input);
+                        if(number>0) {
+                            validInput = true;
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "Eingabe abgebrochen oder falsch.", "Abbruch", JOptionPane.INFORMATION_MESSAGE);
+                            return false;
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Eingabe abgebrochen oder falsch.", "Abbruch", JOptionPane.INFORMATION_MESSAGE);
+                        return false;
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Ungültige Eingabe. Bitte geben Sie eine gültige ganze Zahl ein.", "Fehler", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+
+            if (validInput) {
+                JOptionPane.showMessageDialog(null, "Sie haben " + number + " eingegeben.", "Erfolg", JOptionPane.INFORMATION_MESSAGE);
+                LocalDate now = LocalDate.now();
+                device.setAusleihDauer(number);
+                device.setAusleihTag(now);
+                return true;
+            }
+            return true;
+
+        }
+        public void closeLoanPeriod(Device device){
+            LocalDate now = LocalDate.now();
+            device.setRückgabeTag(now);
+            Period period = Period.between(device.getAusleihTag(), device.getRückgabeTag());
+            int dauer = period.getDays() + period.getMonths() * 30 + period.getYears() * 365;
+            if (dauer > device.getAusleihDauer()) {
+                JOptionPane.showMessageDialog(null, "Sie haben das Gerät zu lange ausgeliegen. Bitte wenden Sie sich an einen Mitarbeiter", "Überzogen", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Vielen Dank!", "Erfolgreich", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
 
 
 
