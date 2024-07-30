@@ -26,8 +26,10 @@ public class AdminWindow {
 
         frame = new JFrame();
         frame.setVisible(true);
-        frame.setTitle("Manager");
+        frame.setTitle("Admin Ansicht");
         frame.setSize(600, 400);
+
+        //zurück zu Welcome bei schließen
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -63,6 +65,17 @@ public class AdminWindow {
                 createNewDevice(Datenbank);
             }
         });
+        JButton userlistBT = new JButton("Print Users");
+        userlistBT.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for(User user1 : Datenbank.getUserList()){
+                    System.out.println(user1.getUsername().toString());
+                    System.out.println(user1.getPassword());
+                }
+            }
+        });
+        StaticPanel.add(userlistBT);
         StaticPanel.add(addDeviceButton);
 
 
@@ -80,7 +93,6 @@ public class AdminWindow {
 
             String Ausleihstatus = "";
             String Name = "";
-            System.out.println("check");
 
             String ausleiher = device.getAusleiher();
             if (ausleiher != null && !(ausleiher.equals("12437")) && !(ausleiher.equals("0"))) {

@@ -85,9 +85,6 @@ public class Welcome {
         JPanel centerPanel = new JPanel(new GridLayout(3, 1, 10, 10));
         centerPanel.setBorder(new EmptyBorder(20, 20, 20, 20)); // Add padding around the panel
 
-        //Admin User hardcoded
-        User user1 = new User("theo.tllz", "Theo", "theodor.telliez@gmail.com", "123", true);
-        datenbank.getUserList().add(user1);
 
         //Login feld
         JTextField UsernameField = new JTextField(15);

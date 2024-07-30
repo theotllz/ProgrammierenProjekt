@@ -29,6 +29,8 @@ public class DB implements Serializable {
         deviceList.add(device4);
         deviceList.add(device3);
 
+        userList.add(new User("SYSadmin", "Admin", "admin@mail.com", "admi.npass,wort2378",true));
+
     }
 
     public List<Device> getDeviceList() {
@@ -38,5 +40,7 @@ public class DB implements Serializable {
     public List<User> getUserList() {
         return userList;
     }
+
+
 
 }

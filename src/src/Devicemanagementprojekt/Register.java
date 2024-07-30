@@ -24,7 +24,7 @@ public class Register {
         panel.removeAll();
         GridBagConstraints gbc = new GridBagConstraints();
 
-        // Create components
+        //Komponenten erstellen
         JLabel aufforderungName = new JLabel("Name eingeben:");
         JTextField NameEingabe = new JTextField(20);
         JLabel aufforderungIDLabel = new JLabel("Nutzernamen:");
@@ -37,7 +37,7 @@ public class Register {
         JLabel PWfehler = new JLabel("Bitte passwort eingeben");
 
 
-        // Adjust grid bag constraints for each component
+
 
         // Name Label
         gbc.gridx = 0;
@@ -68,7 +68,7 @@ public class Register {
         panel.add(IDeingabe, gbc);
 
 
-        //fehlermeldung
+        //Fehlermeldung
         if(fehlercode == 2||fehlercode==12){
             gbc.gridx = 0;
             gbc.gridy = 2;
@@ -95,8 +95,8 @@ public class Register {
         panel.add(setPW, gbc);
 
 
+        //Passwortfehler anzeige
         if(fehlercode == 12||fehlercode==11){
-            System.out.println("testtest");
             gbc.gridx = 0;
             gbc.gridy = 4;
             gbc.gridwidth = 2;
@@ -105,15 +105,16 @@ public class Register {
             panel.add(PWfehler, gbc);
         }
 
-
+        //Fenstervergrößertung bei doppelter Fehlermeldung
         if(fehlercode == 12){
             frame.setSize(new Dimension(415,300));
-            System.out.println("bigger size");
+
         }
 
+        //Fenstergröße bei Fehlermeldung
         if(fehlercode==11||fehlercode==2){
             frame.setSize(new Dimension(415,260));
-            System.out.println("smaller size");
+
         }
 
         // Register Button
@@ -129,15 +130,15 @@ public class Register {
 
         registerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                idcheck(IDeingabe.getText(), new String(setPW.getPassword()), NameEingabe.getText()); // Changed getText() for password field
+                usernamecheck(IDeingabe.getText(), new String(setPW.getPassword()), NameEingabe.getText());
             }
         });
     }
 
-    public void idcheck(String EingabeUsN, String EingabePW, String Name) {
+    public void usernamecheck(String EingabeUsN, String EingabePW, String Name) {
         int fehlercode = 1;
+        //guckt ob Username schon existiert und ob er leer ist
         for (User u : datenbank.getUserList()) {
-            System.out.println("durchgang check");
             if (EingabeUsN.equals(u.getUsername()) || EingabeUsN.equals("0") || EingabeUsN.equals("12437") || EingabeUsN.equals("")) {
                 fehlercode = 2;
             }
@@ -147,9 +148,16 @@ public class Register {
             CreateUser(EingabeUsN, EingabePW, Name);
         }
         else{
-            System.out.println("else+ " + checkpw(EingabePW, fehlercode));
             updatepanel(checkpw(EingabePW, fehlercode));
         }
+    }
+
+    public int checkpw(String EingabePW, int fehlercode) {
+        if (EingabePW.equals("")) {
+            fehlercode = fehlercode + 10;
+        }
+        System.out.println(fehlercode);
+        return fehlercode;
     }
 
     private void usercreatedpanel(User user) {
@@ -162,20 +170,9 @@ public class Register {
         frame.add(usercreatedpane, BorderLayout.CENTER);
     }
 
-    public int checkpw(String EingabePW, int fehlercode) {
-        if (EingabePW.equals("")) {
-            fehlercode = fehlercode + 10;
-        }
-        System.out.println(fehlercode);
-        return fehlercode;
-    }
-
     public void CreateUser(String EingabeUsN, String EingabePW, String Name) {
         User newuser = new User(EingabeUsN, Name, "//", EingabePW, false);
         datenbank.getUserList().add(newuser);
         usercreatedpanel(newuser);
-        for(User u : datenbank.getUserList()) {
-            System.out.println(u.getUsername()+" "+u.getPassword()+" "+u.getName());
-        }
     }
 }
