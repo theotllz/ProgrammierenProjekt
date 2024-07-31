@@ -19,7 +19,7 @@ public class openDetailsUs {
         JPanel preisPanel = new JPanel();
         preisPanel.setLayout(new BorderLayout());
 
-        // Create a panel to hold both the label and the notes
+        // Panel für Label und überschriften
         JPanel notesPanel = new JPanel();
         notesPanel.setLayout(new BorderLayout());
         JLabel notesLabel = new JLabel("Notes:");
@@ -27,7 +27,7 @@ public class openDetailsUs {
         notesPanel.add(notesLabel, BorderLayout.NORTH);
         notesPanel.add(detailsText, BorderLayout.CENTER);
 
-        // Create a panel to hold both the label and the price
+        // Panel für Label und Preis
         JPanel pricePanel = new JPanel();
         pricePanel.setLayout(new BorderLayout());
         JLabel priceLabel = new JLabel("Price:");
@@ -35,11 +35,10 @@ public class openDetailsUs {
         pricePanel.add(priceLabel, BorderLayout.NORTH);
         pricePanel.add(neuPreis, BorderLayout.CENTER);
 
-        // Add the notes and price panels to the details and price panels
         detailsPanel.add(notesPanel, BorderLayout.CENTER);
         preisPanel.add(pricePanel, BorderLayout.CENTER);
 
-        // Add the details and price panels to the frame
+        // Detail und Preis panel zum Frame hinzufügen
         frame.add(detailsPanel, BorderLayout.NORTH);
         frame.add(preisPanel, BorderLayout.SOUTH);
 

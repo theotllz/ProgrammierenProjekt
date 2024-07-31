@@ -117,7 +117,7 @@ public class AdminWindow {
             }
             deviceRow.add(deviceNameLabel, BorderLayout.WEST);
             boolean opendw = false;
-            //Details Fenster
+
             //Details Fenster
             JButton openDetails = new JButton("Open Details");
             openDetails.addActionListener(new ActionListener() {
@@ -128,8 +128,8 @@ public class AdminWindow {
             });
             deviceRow.add(openDetails, BorderLayout.CENTER);
 
-            //Remove button
-            JButton removeButton = new JButton("Removedevice");
+            //"Gerät entfernen" button
+            JButton removeButton = new JButton("Gerät entfernen");
             removeButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {

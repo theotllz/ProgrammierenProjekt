@@ -12,7 +12,6 @@ import java.time.Period;
 
 import static java.awt.BorderLayout.*;
 
-// Custom rounded panel class
 class RoundedPanel extends JPanel {
     private int cornerRadius;
 
@@ -21,6 +20,7 @@ class RoundedPanel extends JPanel {
         cornerRadius = radius;
         setOpaque(false);
     }
+
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -60,9 +60,9 @@ public class UserWindow {
             }
         });
 
-        // Top panel with title and exit button
+        // Top panel mit Titiel und zurück button
         JPanel topPanel = new JPanel(new BorderLayout());
-        JButton exitBT = new JButton("Exit");
+        JButton exitBT = new JButton("zurück");
         exitBT.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -90,21 +90,21 @@ public class UserWindow {
 
     public void updateDevicePanel(DB Datenbank) {
         ADevicePanel.removeAll();
-        // For each device in the list
+        // Für jedes gerät in der Liste
         for (Device device : Datenbank.getDeviceList()) {
-            // Create a custom rounded panel for each device
+            //Rundes Panel für jedes Gerät
             RoundedPanel devicePanel = new RoundedPanel(25);
             devicePanel.setLayout(new BorderLayout(15, 20));
             devicePanel.setBackground(new Color(71, 71, 71));
             devicePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-            // Set fixed size for the device panel
+            // Feste Größe für jedes Gerätepanel
             Dimension fixedSize = new Dimension(229, 234);
             devicePanel.setPreferredSize(fixedSize);
             devicePanel.setMinimumSize(fixedSize);
             devicePanel.setMaximumSize(fixedSize);
 
-            // Device name label
+            // Gerätenamelabel
             JLabel deviceNameLabel = new JLabel(device.getName());
             deviceNameLabel.setFont(new Font("Arial", Font.BOLD, 14));
             devicePanel.add(deviceNameLabel, NORTH);
@@ -115,7 +115,7 @@ public class UserWindow {
             DetailsandDetails.setLayout(new GridLayout(2, 0, 10, 10));
             DetailsandDetails.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-            //Note
+            //Notiz
             JLabel note = new JLabel(device.getNotizen());
             note.setFont(new Font("Arial", Font.BOLD, 12));
             DetailsandDetails.add(note, NORTH);
@@ -133,7 +133,7 @@ public class UserWindow {
             DetailsandDetails.setVisible(true);
             devicePanel.add(DetailsandDetails, BorderLayout.CENTER);
 
-            // Rent/Return button
+            // Ausleihen/Rückgabe Button
             JPanel buttonPanel = new JPanel();
             buttonPanel.setLayout(new BorderLayout());
             buttonPanel.setPreferredSize(new Dimension(50, 50));

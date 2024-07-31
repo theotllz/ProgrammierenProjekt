@@ -8,7 +8,6 @@ public class Device implements Serializable {
 
     private String name;
     private boolean Verfuegbarkeit;
-    // später ersetzen durch Variable von Personenklasse
     public String Ausleiher;
     public String Notizen;
     public String neuPreis;
