@@ -47,11 +47,13 @@ public class UserWindow {
 
     public void initialize(JFrame welcomeframe, User user, DB Datenbank) {
         //user speichern und frame erstellen
-        {this.user = user;
-        this.frame = new JFrame();
-        this.frame.setSize(740, 570);
-        this.frame.setTitle("Customer View");
-        this.frame.setLayout(new BorderLayout());}
+        {
+            this.user = user;
+            this.frame = new JFrame();
+            this.frame.setSize(740, 570);
+            this.frame.setTitle("Customer View");
+            this.frame.setLayout(new BorderLayout());
+        }
 
         // Exit code
         {
@@ -64,8 +66,9 @@ public class UserWindow {
         }
 
         // Top panel mit Titel und Ausloggen button
-
-        JPanel topPanel = new JPanel(new BorderLayout());{
+        {
+        JPanel topPanel = new JPanel(new BorderLayout());
+        {
             JButton exitBT = new JButton("Ausloggen");
             exitBT.addActionListener(new ActionListener() {
                 @Override
@@ -73,7 +76,8 @@ public class UserWindow {
                     close(welcomeframe);
                 }
             });
-            topPanel.add(exitBT, WEST);}
+            topPanel.add(exitBT, WEST);
+        }
 
 
         JLabel titleLabel = new JLabel("Geräteübersicht", SwingConstants.CENTER);
@@ -82,15 +86,17 @@ public class UserWindow {
 
         topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         frame.add(topPanel, NORTH);
+    }
 
         // DevicePanel
+        {
         ADevicePanel = new JPanel();
         ADevicePanel.setLayout(new GridLayout(0, 3, 15, 20)); // GridLayout for square frames
         updateDevicePanel(Datenbank);
         JScrollPane scrollPane = new JScrollPane(ADevicePanel);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         frame.add(scrollPane, CENTER);
-        frame.setVisible(true);
+        frame.setVisible(true);}
     }
 
     public void updateDevicePanel(DB Datenbank) {

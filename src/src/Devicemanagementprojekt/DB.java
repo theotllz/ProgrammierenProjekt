@@ -15,7 +15,7 @@ public class DB implements Serializable {
         List<User> userList = new ArrayList<>();
         this.userList = userList;
 
-        //hardcoded:
+        //Hardcoded:
         Device device1 = new Device("iPhone 13pro");
         Device device2 = new Device("Dell XPS 15");
         Device device6 = new Device("iPhone 15pro");
@@ -28,7 +28,7 @@ public class DB implements Serializable {
         deviceList.add(device5);
         deviceList.add(device4);
         deviceList.add(device3);
-
+        //Admin
         userList.add(new User("SYSadmin", "Admin", "admin@mail.com", "admi.npass,wort2378",true));
 
     }
@@ -40,7 +40,6 @@ public class DB implements Serializable {
     public List<User> getUserList() {
         return userList;
     }
-
 
 
 }

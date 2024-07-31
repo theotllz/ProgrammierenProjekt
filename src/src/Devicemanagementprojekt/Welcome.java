@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.io.*;
 
 public class Welcome {
+
     //Frame und Panel
     private JFrame frame;
     private JPanel welcomePanel;
@@ -32,7 +33,8 @@ public class Welcome {
         nevercreatedAdminV = true;
         nevercreatedUserV = true;
 
-        // Initialize the JFrame
+        // Initlialisiert den Frame
+        {
         this.frame = new JFrame();
         this.frame.setTitle("Login");
         this.frame.setSize(500, 400);
@@ -40,7 +42,7 @@ public class Welcome {
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         welcomePanel = new JPanel(new BorderLayout());
         //füllt das Panel
-        updateWelcomePanel();
+        updateWelcomePanel();}
     }
 
     //füllt das Panel neu bei Ersterllung und zur Veränderung
