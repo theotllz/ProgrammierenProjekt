@@ -7,25 +7,29 @@ import java.awt.event.ActionListener;
 
 public class Register {
     private final JFrame frame;
-    private final JPanel panel;
+    private JPanel currentPanel;
     private final DB datenbank;
+    private JPanel usercreatedpanel;
 
     public Register(DB datenbank) {
         this.datenbank = datenbank;
         frame = new JFrame();
-        panel = new JPanel(new GridBagLayout());
-        frame.add(panel, BorderLayout.CENTER);
-        updatepanel(0); // changed default fehlercode to 0
-        frame.pack(); // Adjust the frame size to fit its contents
+        currentPanel = new JPanel(new GridBagLayout());
+        frame.add(currentPanel, BorderLayout.CENTER);
+        updatepanel(0);
+        frame.pack();
         frame.setVisible(true);
+        usercreatedpanel = new JPanel(new BorderLayout());
     }
 
     public void updatepanel(int fehlercode) {
-        panel.removeAll();
-
+        frame.remove(currentPanel);
+        currentPanel = new JPanel(new GridBagLayout());
+        frame.add(currentPanel, BorderLayout.CENTER);
         GridBagConstraints gbc = new GridBagConstraints();
+        frame.setSize(new Dimension(480,272));
 
-        //Komponenten erstellen
+
         JLabel aufforderungName = new JLabel("Name:");
         JTextField NameEingabe = new JTextField(20);
         JLabel aufforderungIDLabel = new JLabel("Nutzername:");
@@ -37,47 +41,42 @@ public class Register {
         JLabel UNfehler = new JLabel("Nutzername schon vergeben oder leer");
         JLabel PWfehler = new JLabel("Bitte Passwort eingeben");
 
-
-
-
         // Name Label
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.insets = new Insets(10, 10, 10, 10); // Margin around the components
         gbc.anchor = GridBagConstraints.WEST;
-        panel.add(aufforderungName, gbc);
+        currentPanel.add(aufforderungName, gbc);
 
         // Name Eingabe
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1.0;
-        panel.add(NameEingabe, gbc);
+        currentPanel.add(NameEingabe, gbc);
 
         // Username Label
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.insets = new Insets(10, 10, 10,10); // Margin around the components
+        gbc.insets = new Insets(10, 10, 10, 10);
         gbc.anchor = GridBagConstraints.WEST;
-        panel.add(aufforderungIDLabel, gbc);
+        currentPanel.add(aufforderungIDLabel, gbc);
 
         // Username Eingabe
         gbc.gridx = 1;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1.0;
-        panel.add(IDeingabe, gbc);
+        currentPanel.add(IDeingabe, gbc);
 
-
-        //Fehlermeldung
-        if(fehlercode == 2||fehlercode==12){
+        // Fehlermeldung
+        if (fehlercode == 2 || fehlercode == 12) {
             gbc.gridx = 0;
             gbc.gridy = 2;
             gbc.gridwidth = 2;
             gbc.fill = GridBagConstraints.NONE;
             gbc.anchor = GridBagConstraints.CENTER;
-            panel.add(UNfehler, gbc);
-
+            currentPanel.add(UNfehler, gbc);
         }
 
         // Password Label
@@ -86,36 +85,33 @@ public class Register {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.NONE;
         gbc.weightx = 0;
-        panel.add(aufforderungPWLabel, gbc);
+        currentPanel.add(aufforderungPWLabel, gbc);
 
         // Password Eingabe
         gbc.gridx = 1;
         gbc.gridy = 3;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1.0;
-        panel.add(setPW, gbc);
+        currentPanel.add(setPW, gbc);
 
-
-        //Passwortfehler anzeige
-        if(fehlercode == 12||fehlercode==11){
+        // Passwortfehler anzeige
+        if (fehlercode == 12 || fehlercode == 11) {
             gbc.gridx = 0;
             gbc.gridy = 4;
             gbc.gridwidth = 2;
             gbc.fill = GridBagConstraints.NONE;
             gbc.anchor = GridBagConstraints.CENTER;
-            panel.add(PWfehler, gbc);
+            currentPanel.add(PWfehler, gbc);
         }
 
-        //Fenstervergrößertung bei doppelter Fehlermeldung
-        if(fehlercode == 12){
-            frame.setSize(new Dimension(415,300));
-
+        // Fenstervergrößertung bei doppelter Fehlermeldung
+        if (fehlercode == 12) {
+            frame.setSize(new Dimension(415, 300));
         }
 
-        //Fenstergröße bei Fehlermeldung
-        if(fehlercode==11||fehlercode==2){
-            frame.setSize(new Dimension(415,260));
-
+        // Fenstergröße bei Fehlermeldung
+        if (fehlercode == 11 || fehlercode == 2) {
+            frame.setSize(new Dimension(415, 260));
         }
 
         // Register Button
@@ -124,23 +120,24 @@ public class Register {
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.NONE;
         gbc.anchor = GridBagConstraints.CENTER;
-        panel.add(registerButton, gbc);
+        currentPanel.add(registerButton, gbc);
 
-        panel.revalidate();
-        panel.repaint();
+        currentPanel.revalidate();
+        currentPanel.repaint();
 
         registerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 usernamecheck(IDeingabe.getText(), new String(setPW.getPassword()), NameEingabe.getText());
             }
         });
-        panel.repaint();
-        panel.revalidate();
+
+        frame.revalidate();
+        frame.repaint();
     }
 
     public void usernamecheck(String EingabeUsN, String EingabePW, String Name) {
         int fehlercode = 1;
-        //guckt ob Username schon existiert und ob er leer ist
+        // guckt ob Username schon existiert und ob er leer ist
         for (User u : datenbank.getUserList()) {
             if (EingabeUsN.equals(u.getUsername()) || EingabeUsN.equals("0") || EingabeUsN.equals("12437") || EingabeUsN.isEmpty()) {
                 fehlercode = 2;
@@ -148,10 +145,9 @@ public class Register {
             }
         }
 
-        if(checkpw(EingabePW, fehlercode)==1){
+        if (checkpw(EingabePW, fehlercode) == 1) {
             CreateUser(EingabeUsN, EingabePW, Name);
-        }
-        else{
+        } else {
             updatepanel(checkpw(EingabePW, fehlercode));
         }
     }
@@ -165,13 +161,15 @@ public class Register {
     }
 
     private void usercreatedpanel(User user) {
-        JPanel usercreatedpane = new JPanel(new BorderLayout());
-        panel.removeAll();
-        frame.setSize(new Dimension(200,80));
-        JLabel usercreated = new JLabel(user.getName() +" "+ user.getUsername() + " erstellt");
-        usercreatedpane.add(usercreated, BorderLayout.CENTER);
-        frame.remove(panel);
-        frame.add(usercreatedpane, BorderLayout.CENTER);
+        frame.setSize(new Dimension(200, 80));
+        JLabel usercreated = new JLabel(user.getName() + " " + user.getUsername() + " erstellt");
+        usercreatedpanel.removeAll();
+        usercreatedpanel.add(usercreated, BorderLayout.CENTER);
+        frame.remove(currentPanel);
+        currentPanel = usercreatedpanel;
+        frame.add(currentPanel, BorderLayout.CENTER);
+        frame.revalidate();
+        frame.repaint();
     }
 
     public void CreateUser(String EingabeUsN, String EingabePW, String Name) {
@@ -180,11 +178,13 @@ public class Register {
         usercreatedpanel(newuser);
     }
 
-    public void makevisible(){
+    public void makevisible() {
+        frame.remove(usercreatedpanel);
         updatepanel(0);
         frame.setVisible(true);
     }
-    public void makeinvisible(){
+
+    public void makeinvisible() {
         updatepanel(1);
         frame.setVisible(false);
     }
