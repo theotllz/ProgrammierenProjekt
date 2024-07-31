@@ -56,14 +56,14 @@ public class AdminWindow {
         exit.add(exitBT);
 
 
-        JButton addDeviceButton = new JButton("Gerät Hinzufüge");
+        JButton addDeviceButton = new JButton("Gerät hinzufügen");
         addDeviceButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 createNewDevice(Datenbank);
             }
         });
-        JButton userlistBT = new JButton("Print Users");
+        JButton userlistBT = new JButton("Nutzer ausgeben");
         userlistBT.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -117,7 +117,7 @@ public class AdminWindow {
             boolean opendw = false;
 
             //Details Fenster
-            JButton openDetails = new JButton("Open Details");
+            JButton openDetails = new JButton("Details öffnen");
             openDetails.addActionListener(new ActionListener() {
 
                 public void actionPerformed(ActionEvent e) {
@@ -154,7 +154,7 @@ public class AdminWindow {
             Datenbank.getDeviceList().add(newDevice);
             updateDevicePanel(Datenbank);
         } else {
-            JOptionPane.showMessageDialog(frame, "Device name cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(frame, "Gerätename kann nicht leer sein.", "Fehler", JOptionPane.ERROR_MESSAGE);
         }
     }
 

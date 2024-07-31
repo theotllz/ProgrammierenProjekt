@@ -26,16 +26,16 @@ public class Register {
         GridBagConstraints gbc = new GridBagConstraints();
 
         //Komponenten erstellen
-        JLabel aufforderungName = new JLabel("Name eingeben:");
+        JLabel aufforderungName = new JLabel("Name:");
         JTextField NameEingabe = new JTextField(20);
-        JLabel aufforderungIDLabel = new JLabel("Nutzernamen:");
+        JLabel aufforderungIDLabel = new JLabel("Nutzername:");
         JTextField IDeingabe = new JTextField(20);
         JLabel aufforderungPWLabel = new JLabel("Passwort erstellen:");
         JPasswordField setPW = new JPasswordField(20);
         JButton registerButton = new JButton("Registrieren");
 
         JLabel UNfehler = new JLabel("Nutzername schon vergeben oder leer");
-        JLabel PWfehler = new JLabel("Bitte passwort eingeben");
+        JLabel PWfehler = new JLabel("Bitte Passwort eingeben");
 
         // Name Label
         gbc.gridx = 0;

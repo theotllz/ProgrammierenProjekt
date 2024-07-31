@@ -10,7 +10,7 @@ import java.awt.event.WindowEvent;
 public class openDetails {
     JFrame frame;
     public openDetails(Device device) {
-        frame = new JFrame("Details for " + device.getName());
+        frame = new JFrame("Details für " + device.getName());
         openDetailsWindow(device);
     }
 
@@ -26,7 +26,7 @@ public class openDetails {
 
         JPanel notesPanel = new JPanel();
         notesPanel.setLayout(new BorderLayout());
-        JLabel notesLabel = new JLabel("Notes:");
+        JLabel notesLabel = new JLabel("Notizen:");
         JTextPane detailsText = new JTextPane();
         detailsText.setText(device.getNotizen());
         detailsText.addFocusListener(new java.awt.event.FocusAdapter() {

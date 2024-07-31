@@ -51,7 +51,7 @@ public class UserWindow {
             this.user = user;
             this.frame = new JFrame();
             this.frame.setSize(740, 570);
-            this.frame.setTitle("Customer View");
+            this.frame.setTitle("Nutzer Ansicht");
             this.frame.setLayout(new BorderLayout());
         }
 
