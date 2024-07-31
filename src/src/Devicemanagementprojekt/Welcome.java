@@ -22,9 +22,9 @@ public class Welcome {
     private DB datenbank;
     //Dateiname bei Serialisierung
     private static final String DATABASE_FILE = "database.ser";
-
     //zum abspeichern des loginusers, methodenübergreifend
     private User Loginuser;
+
 
     public Welcome() {
         //läd informationen von serialisierter Datei oder erstellt neue Datenbanm(DB)
@@ -45,6 +45,7 @@ public class Welcome {
         updateWelcomePanel();}
     }
 
+
     //füllt das Panel neu bei Ersterllung und zur Veränderung
     public void updateWelcomePanel() {
         welcomePanel.removeAll();
@@ -60,7 +61,7 @@ public class Welcome {
 
         // Button "Speichern und Schließen"
         JButton saveAndCloseButton = new JButton("Speichern und Schließen");
-        saveAndCloseButton.setMargin(new Insets(10, 10, 10, 10)); // Adjust button padding
+        saveAndCloseButton.setMargin(new Insets(10, 10, 10, 10));
         //Beendet das programm nach Speicherung
         saveAndCloseButton.addActionListener(e -> {
             try {
@@ -81,6 +82,7 @@ public class Welcome {
         RegisterButton.setMargin(new Insets(20, 20, 20, 20));
         RegisterButton.addActionListener(e -> {
             reg.makevisible();
+
         });
         bottom.add(RegisterButton);
 
@@ -100,18 +102,20 @@ public class Welcome {
         JButton loginButton = new JButton("Login");
         loginButton.setBackground(Color.GREEN);
         loginButton.setForeground(Color.DARK_GRAY);
-        loginButton.setFont(new Font("Arial", Font.BOLD, 16)); // Set font
+        loginButton.setFont(new Font("Arial", Font.BOLD, 16));
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
                 Loginuser = userCheck(UsernameField, PasswordField);
                 if (Loginuser == null) {
-                    updateWelcomePanel();
+                    //Panelupdate, wenn user nicht gefunden wird
+                    //updateWelcomePanel();
+
                 } else {
                     if (Loginuser.getAdmin()) {
                         if (nevercreatedAdminV) {
                             updateWelcomePanel();
-                            adminV = new AdminWindow(frame, Loginuser, datenbank);
+                            adminV = new AdminWindow(frame, datenbank);
                             adminV.visibility(true);
                         } else {
                             updateWelcomePanel();
@@ -125,7 +129,7 @@ public class Welcome {
                             userV.visibility(true, Loginuser);
                         }
                     }
-                    frame.setVisible(false); // Hide the Welcome window after login
+                    frame.setVisible(false); //Login Frame nach Login schließen
                 }
             }
         });
@@ -138,6 +142,7 @@ public class Welcome {
         // Frame sichtbar machen
         frame.setVisible(true);
     }
+
 
     //zum speichern und schließen des programmes
     private void saveDatabase() {
@@ -156,7 +161,8 @@ public class Welcome {
         }
     }
 
-    //zum abrufen der Datenbankklasse
+
+    //zum abrufen der serialisierten Datenbanklasse
     private void loadDatabase() {
         try {
             String path = getRunningFilePath();
@@ -180,6 +186,7 @@ public class Welcome {
         }
     }
 
+    //Pfad der ausgeführten Datei abrufen, um serialisierte Datei zu speichern
     private String getRunningFilePath() {
         try {
             String path = Welcome.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();

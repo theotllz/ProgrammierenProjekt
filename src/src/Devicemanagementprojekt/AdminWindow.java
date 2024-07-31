@@ -15,12 +15,12 @@ public class AdminWindow {
     private JPanel exit;
     private DB Datenbank;
 
-    public AdminWindow(JFrame welcomeframe, User user, DB Datenbank) {
-        initalize(welcomeframe, user, Datenbank);
+    public AdminWindow(JFrame welcomeframe, DB Datenbank) {
+        initalize(welcomeframe, Datenbank);
     }
 
 
-    public void initalize(JFrame welcomeframe, User user, DB Datenbank) {
+    public void initalize(JFrame welcomeframe, DB Datenbank) {
 
         frame = new JFrame();
         frame.setVisible(true);
