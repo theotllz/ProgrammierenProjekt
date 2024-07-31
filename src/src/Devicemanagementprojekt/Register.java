@@ -175,4 +175,11 @@ public class Register {
         datenbank.getUserList().add(newuser);
         usercreatedpanel(newuser);
     }
+
+    public void makevisible(){
+        frame.setVisible(true);
+    }
+    public void makeinvisible(){
+        frame.setVisible(false);
+    }
 }

@@ -28,7 +28,7 @@ public class Welcome {
     public Welcome() {
         //läd informationen von serialisierter Datei oder erstellt neue Datenbanm(DB)
         loadDatabase();
-        //nevercreated windows(damit keine Klasse doppelt erstellt werden muss)
+        //nevercreatedwindows boolean(damit keine Klasse doppelt erstellt werden muss)
         nevercreatedAdminV = true;
         nevercreatedUserV = true;
 
@@ -74,16 +74,18 @@ public class Welcome {
 
         // Button "Registrieren"
         JButton RegisterButton = new JButton("Registrieren");
-        RegisterButton.setMargin(new Insets(20, 20, 20, 20)); // Adjust button padding
+        Register reg = new Register(datenbank);
+        reg.makeinvisible();
+        RegisterButton.setMargin(new Insets(20, 20, 20, 20));
         RegisterButton.addActionListener(e -> {
-            Register reg = new Register(datenbank);
+            reg.makevisible();
         });
         bottom.add(RegisterButton);
 
 
         // Panel für Login
         JPanel centerPanel = new JPanel(new GridLayout(3, 1, 10, 10));
-        centerPanel.setBorder(new EmptyBorder(20, 20, 20, 20)); // Add padding around the panel
+        centerPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
 
 
         //Login feld
@@ -94,8 +96,8 @@ public class Welcome {
 
         //LOGIN BUTTON & ACTION
         JButton loginButton = new JButton("Login");
-        loginButton.setBackground(Color.GREEN); // Set button background color
-        loginButton.setForeground(Color.DARK_GRAY); // Set text color
+        loginButton.setBackground(Color.GREEN);
+        loginButton.setForeground(Color.DARK_GRAY);
         loginButton.setFont(new Font("Arial", Font.BOLD, 16)); // Set font
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -131,7 +133,7 @@ public class Welcome {
         welcomePanel.add(centerPanel, BorderLayout.CENTER);
 
 
-        // Make the frame visible when
+        // Frame sichtbar machen
         frame.setVisible(true);
     }
 
@@ -196,7 +198,7 @@ public class Welcome {
             }
         }
         // Darstellung einer Fehlermeldung bei falschen Anmeldedaten
-        JOptionPane.showMessageDialog(null, "Username or password wrong", "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Benutzername oder Passwort falsch", "Bitte erneut eingeben", JOptionPane.ERROR_MESSAGE);
         return null;
     }
 

@@ -48,7 +48,7 @@ public class AdminWindow {
         frame.add(DevicePanel, BorderLayout.CENTER);
 
         //exit button
-        JButton exitBT = new JButton("Exit");
+        JButton exitBT = new JButton("Ausloggen");
         exitBT.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -58,7 +58,7 @@ public class AdminWindow {
         exit.add(exitBT);
 
 
-        JButton addDeviceButton = new JButton("Add Device");
+        JButton addDeviceButton = new JButton("Gerät Hinzufüge");
         addDeviceButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

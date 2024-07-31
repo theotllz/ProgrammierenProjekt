@@ -46,30 +46,35 @@ public class UserWindow {
     }
 
     public void initialize(JFrame welcomeframe, User user, DB Datenbank) {
-        this.user = user;
+        //user speichern und frame erstellen
+        {this.user = user;
         this.frame = new JFrame();
         this.frame.setSize(740, 570);
         this.frame.setTitle("Customer View");
-        this.frame.setLayout(new BorderLayout());
+        this.frame.setLayout(new BorderLayout());}
 
         // Exit code
-        this.frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        this.frame.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                close(welcomeframe);
-            }
-        });
+        {
+            this.frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            this.frame.addWindowListener(new WindowAdapter() {
+                public void windowClosing(WindowEvent e) {
+                    close(welcomeframe);
+                }
+            });
+        }
 
-        // Top panel mit Titiel und zurück button
-        JPanel topPanel = new JPanel(new BorderLayout());
-        JButton exitBT = new JButton("zurück");
-        exitBT.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                close(welcomeframe);
-            }
-        });
-        topPanel.add(exitBT, WEST);
+        // Top panel mit Titel und Ausloggen button
+
+        JPanel topPanel = new JPanel(new BorderLayout());{
+            JButton exitBT = new JButton("Ausloggen");
+            exitBT.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    close(welcomeframe);
+                }
+            });
+            topPanel.add(exitBT, WEST);}
+
 
         JLabel titleLabel = new JLabel("Geräteübersicht", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
