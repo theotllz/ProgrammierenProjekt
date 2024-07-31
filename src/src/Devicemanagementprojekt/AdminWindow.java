@@ -14,7 +14,6 @@ public class AdminWindow {
     private JPanel StaticPanel;
     private JPanel exit;
     private DB Datenbank;
-    private User user;
 
     public AdminWindow(JFrame welcomeframe, User user, DB Datenbank) {
         initalize(welcomeframe, user, Datenbank);
@@ -22,7 +21,6 @@ public class AdminWindow {
 
 
     public void initalize(JFrame welcomeframe, User user, DB Datenbank) {
-        this.user = user;
 
         frame = new JFrame();
         frame.setVisible(true);
@@ -150,7 +148,7 @@ public class AdminWindow {
 
 
     private void createNewDevice(DB Datenbank) {
-        String deviceName = JOptionPane.showInputDialog(frame, "Enter device name:");
+        String deviceName = JOptionPane.showInputDialog(frame, "Gerätenamen eingeben");
         if (deviceName != null && !deviceName.trim().isEmpty()) {
             Device newDevice = new Device(deviceName);
             Datenbank.getDeviceList().add(newDevice);

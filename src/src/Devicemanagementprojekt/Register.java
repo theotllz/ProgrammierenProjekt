@@ -6,9 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Register {
-    private JFrame frame;
-    private JPanel panel;
-    private DB datenbank;
+    private final JFrame frame;
+    private final JPanel panel;
+    private final DB datenbank;
 
     public Register(DB datenbank) {
         this.datenbank = datenbank;
@@ -139,8 +139,9 @@ public class Register {
         int fehlercode = 1;
         //guckt ob Username schon existiert und ob er leer ist
         for (User u : datenbank.getUserList()) {
-            if (EingabeUsN.equals(u.getUsername()) || EingabeUsN.equals("0") || EingabeUsN.equals("12437") || EingabeUsN.equals("")) {
+            if (EingabeUsN.equals(u.getUsername()) || EingabeUsN.equals("0") || EingabeUsN.equals("12437") || EingabeUsN.isEmpty()) {
                 fehlercode = 2;
+                break;
             }
         }
 
@@ -153,7 +154,7 @@ public class Register {
     }
 
     public int checkpw(String EingabePW, int fehlercode) {
-        if (EingabePW.equals("")) {
+        if (EingabePW.isEmpty()) {
             fehlercode = fehlercode + 10;
         }
         System.out.println(fehlercode);

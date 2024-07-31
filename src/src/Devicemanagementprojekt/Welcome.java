@@ -10,11 +10,11 @@ import java.io.*;
 public class Welcome {
 
     //Frame und Panel
-    private JFrame frame;
-    private JPanel welcomePanel;
+    private final JFrame frame;
+    private final JPanel welcomePanel;
     //gegen Doppelte erstellung
-    private boolean nevercreatedAdminV;
-    private boolean nevercreatedUserV;
+    private final boolean nevercreatedAdminV;
+    private final boolean nevercreatedUserV;
     //Fenster
     private UserWindow userV;
     private AdminWindow adminV;

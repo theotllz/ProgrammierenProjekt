@@ -42,7 +42,7 @@ public class openDetails {
 
         JPanel pricePanel = new JPanel();
         pricePanel.setLayout(new BorderLayout());
-        JLabel priceLabel = new JLabel("Price:");
+        JLabel priceLabel = new JLabel("Preis:");
         JTextPane neuPreis = new JTextPane();
         neuPreis.setText(device.getNeuPreis());
         neuPreis.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -73,10 +73,6 @@ public class openDetails {
     public void detailsvisible(Device device){
         openDetailsWindow(device);
         frame.setVisible(true);
-    }
-
-    public void detailsinvisible(){
-        frame.setVisible(false);
     }
 }
 
