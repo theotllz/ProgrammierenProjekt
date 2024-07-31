@@ -37,6 +37,9 @@ public class Register {
         JLabel UNfehler = new JLabel("Nutzername schon vergeben oder leer");
         JLabel PWfehler = new JLabel("Bitte Passwort eingeben");
 
+
+
+
         // Name Label
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -54,7 +57,7 @@ public class Register {
         // Username Label
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.insets = new Insets(10, 10, 10, 10); // Margin around the components
+        gbc.insets = new Insets(10, 10, 10,10); // Margin around the components
         gbc.anchor = GridBagConstraints.WEST;
         panel.add(aufforderungIDLabel, gbc);
 
@@ -65,14 +68,16 @@ public class Register {
         gbc.weightx = 1.0;
         panel.add(IDeingabe, gbc);
 
+
         //Fehlermeldung
-        if(fehlercode == 2 || fehlercode == 12){
+        if(fehlercode == 2||fehlercode==12){
             gbc.gridx = 0;
             gbc.gridy = 2;
             gbc.gridwidth = 2;
             gbc.fill = GridBagConstraints.NONE;
             gbc.anchor = GridBagConstraints.CENTER;
             panel.add(UNfehler, gbc);
+
         }
 
         // Password Label
@@ -90,8 +95,9 @@ public class Register {
         gbc.weightx = 1.0;
         panel.add(setPW, gbc);
 
+
         //Passwortfehler anzeige
-        if(fehlercode == 12 || fehlercode == 11){
+        if(fehlercode == 12||fehlercode==11){
             gbc.gridx = 0;
             gbc.gridy = 4;
             gbc.gridwidth = 2;
@@ -102,12 +108,14 @@ public class Register {
 
         //Fenstervergrößertung bei doppelter Fehlermeldung
         if(fehlercode == 12){
-            frame.setSize(new Dimension(415, 300));
+            frame.setSize(new Dimension(415,300));
+
         }
 
         //Fenstergröße bei Fehlermeldung
-        if(fehlercode == 11 || fehlercode == 2){
-            frame.setSize(new Dimension(415, 260));
+        if(fehlercode==11||fehlercode==2){
+            frame.setSize(new Dimension(415,260));
+
         }
 
         // Register Button
@@ -126,6 +134,8 @@ public class Register {
                 usernamecheck(IDeingabe.getText(), new String(setPW.getPassword()), NameEingabe.getText());
             }
         });
+        panel.repaint();
+        panel.revalidate();
     }
 
     public void usernamecheck(String EingabeUsN, String EingabePW, String Name) {
@@ -138,9 +148,10 @@ public class Register {
             }
         }
 
-        if(checkpw(EingabePW, fehlercode) == 1){
+        if(checkpw(EingabePW, fehlercode)==1){
             CreateUser(EingabeUsN, EingabePW, Name);
-        } else {
+        }
+        else{
             updatepanel(checkpw(EingabePW, fehlercode));
         }
     }
@@ -156,8 +167,8 @@ public class Register {
     private void usercreatedpanel(User user) {
         JPanel usercreatedpane = new JPanel(new BorderLayout());
         panel.removeAll();
-        frame.setSize(new Dimension(200, 80));
-        JLabel usercreated = new JLabel(user.getName() + " " + user.getUsername() + " erstellt");
+        frame.setSize(new Dimension(200,80));
+        JLabel usercreated = new JLabel(user.getName() +" "+ user.getUsername() + " erstellt");
         usercreatedpane.add(usercreated, BorderLayout.CENTER);
         frame.remove(panel);
         frame.add(usercreatedpane, BorderLayout.CENTER);
@@ -169,13 +180,12 @@ public class Register {
         usercreatedpanel(newuser);
     }
 
-    public void makevisible() {
-        frame.dispose();
-        frame.setVisible(false);
-        new Register(datenbank);
+    public void makevisible(){
+        updatepanel(0);
+        frame.setVisible(true);
     }
-
-    public void makeinvisible() {
-        frame.dispose();
+    public void makeinvisible(){
+        updatepanel(1);
+        frame.setVisible(false);
     }
 }
